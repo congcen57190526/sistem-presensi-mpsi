@@ -1,8 +1,3 @@
-<?php
-require 'utils/connect.php';
-$result = mysqli_query($conn, "SELECT * FROM mahasiswa");
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,19 +5,24 @@ $result = mysqli_query($conn, "SELECT * FROM mahasiswa");
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LOGIN PAGE</title>
+    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
+<script>
+    function sub() {
+        alert("yes");
+    }
+</script>
 
 <body>
-    <h1>MAIN PAGE</h1>
-    <?php
-    while ($row = mysqli_fetch_assoc($result)) :
-    ?>
-        <?= $row["nama"]; ?>
-    <?php
-    endwhile;
-    ?>
-    <!-- WELCOME PAGE -->
+    <div class="bg">
+        <form align="center" class="form">
+            <h1 style="color: #936D49">Login</h1><br>
+            <input class="login" type="text" placeholder="Kode Kelas"><br><br>
+            <input class="login" type="text" placeholder="Password"><br><br>
+            <input class="submit" type="button" value="Submit" onclick="sub()">
+        </form>
+    </div>
 </body>
 
 </html>

@@ -25,7 +25,7 @@ html::before{
     top: solid 20px #F5E9CF;
     left: solid 20px #F5E9CF;
     border-radius:100% 0px 0px 0px;
-    background-image: url(loginbg.png);
+    background-image: url(../images/loginbg.png);
     background-repeat: no-repeat;
     background-position: center;
     background-size: 100%;
