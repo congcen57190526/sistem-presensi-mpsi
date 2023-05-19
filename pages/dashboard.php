@@ -36,6 +36,7 @@ include '../utils/customFunction.php';
             <div style="display: flex; gap: 8px;">
                 <button class="btn btn-success my-shadow" style="background-color: #D6E8DB; border: none; color: black;" disabled>Kalkulus</button>
                 <button class="btn btn-success my-shadow" style="background-color: #D6E8DB; border: none; color: black;" disabled>IV - A</button>
+                <a align="right" style="font-weight: bold;position: absolute; right: 154px; transform: translate(0, 10px)"><?php generateDate()?></a>
             </div>
         </head>
         <br>
@@ -50,7 +51,7 @@ include '../utils/customFunction.php';
                     </tr>
                 </thead>
                 <tbody>
-                    <?php for ($i = 1; $i <= 100; $i++) { ?>
+                    <?php for ($i = 1; $i <= 20; $i++) { ?>
                         <tr>
                             <th><?= $i ?></th>
                             <td><?= generateRandomName() ?> </td>
@@ -70,6 +71,7 @@ include '../utils/customFunction.php';
             </table>
         </section>
         <footer class="d-flex justify-content-end py-3">
+            <button class="btn my-shadow" style="background-color: #D6E8DB; margin-right: 10px" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Cancel</button> 
             <button class="btn my-shadow" style="background-color: #D6E8DB;" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">End Class</button>
         </footer>
     </div>

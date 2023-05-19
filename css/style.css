@@ -1,17 +1,6 @@
 html{
     background-color: #F5E9CF;
 }
-/*
-html::before{
-    content:'';
-    position: absolute;
-    background-image: url("loginbg.png");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    height: 100%;
-    border-radius: 100%;
-}*/
 
 html::before{
     content:'';
@@ -22,8 +11,6 @@ html::before{
     height:100%;
     border: inherit;
     border-color: transparent;
-    top: solid 20px #F5E9CF;
-    left: solid 20px #F5E9CF;
     border-radius:100% 0px 0px 0px;
     background-image: url(../images/loginbg.png);
     background-repeat: no-repeat;
@@ -51,13 +38,16 @@ img {
     margin-right: auto;
     margin-top: 10%;
     padding: 30px;
-    background-color: #F7C8E0;
+    background-color: #D6E8DB;
 }
 
 .login{
     border-radius: 25px;
     border: none;
-    height: 25px;
+    height: 30px;
+    width: 200px;
+    font-size: 25px;
+    padding-left: 10px;
 }
 
 .form .submit{
@@ -73,3 +63,7 @@ img {
     height: 40px;
 }
 
+.submit:hover{
+    background-color:aqua;
+    cursor: pointer;
+}
