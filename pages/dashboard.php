@@ -17,10 +17,22 @@ include '../utils/customFunction.php';
         function handleEndClass() {
             window.location.href = "http://localhost/sistem-presensi-rpl/";
         }
+        function display_c(){
+        var refresh=1000; // Refresh rate in milli seconds
+        mytime=setTimeout('display_ct()',refresh)
+        }
+
+        function display_ct() {
+        var x = new Date()
+        var x1=x.getMonth() + 1+ "/" + x.getDate() + "/" + x.getFullYear(); 
+        x1 = x1 + " - " +  x.getHours( )+ ":" +  x.getMinutes() + ":" +  x.getSeconds();
+        document.getElementById('ct').innerHTML = x1;
+        display_c();
+        }
     </script>
 </head>
 
-<body class="creamBg" style="display: flex;
+<body onload="display_ct()" class="creamBg" style="display: flex;
             justify-content: center;
             padding: 20px;
             height: 100vh;">
@@ -36,6 +48,7 @@ include '../utils/customFunction.php';
             <div style="display: flex; gap: 8px;">
                 <button class="btn btn-success my-shadow" style="background-color: #D6E8DB; border: none; color: black;" disabled>Kalkulus</button>
                 <button class="btn btn-success my-shadow" style="background-color: #D6E8DB; border: none; color: black;" disabled>IV - A</button>
+                <a id="ct" align="center" style="font-weight: bold;position: absolute; right: 620px; transform: translate(0, 10px)"></a>
                 <a align="right" style="font-weight: bold;position: absolute; right: 154px; transform: translate(0, 10px)"><?php generateDate()?></a>
             </div>
         </head>
@@ -71,7 +84,6 @@ include '../utils/customFunction.php';
             </table>
         </section>
         <footer class="d-flex justify-content-end py-3">
-            <button class="btn my-shadow" style="background-color: #D6E8DB; margin-right: 10px" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Cancel</button> 
             <button class="btn my-shadow" style="background-color: #D6E8DB;" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">End Class</button>
         </footer>
     </div>

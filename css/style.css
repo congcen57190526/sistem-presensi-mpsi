@@ -67,3 +67,6 @@ img {
     background-color:aqua;
     cursor: pointer;
 }
+.submit:active{
+    background-color: red;
+}

@@ -11,6 +11,7 @@
 </head>
 <script>
     function sub() {
+        //var x = document.fform.inp.value;
         window.location.href = "pages/dashboard.php";
     }
 </script>
@@ -19,7 +20,7 @@
     <div class="bg">
         <form align="center" class="form">
             <h1 style="color: #936D49">Login</h1><br>
-            <input class="login my-shadow" type="text" placeholder="Kode Guru"><br><br>
+            <input class="login my-shadow" name="inp" type="text" placeholder="Kode Guru"><br><br>
             <input class="login my-shadow" type="password" placeholder="Password"><br><br>
             <button class="submit my-shadow" type="button" onclick="sub()">Submit</button>
         </form>
