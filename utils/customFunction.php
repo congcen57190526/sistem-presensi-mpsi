@@ -26,3 +26,4 @@ function generateDate(){
     $currentDate = date('D I F Y');
     echo $currentDate;
 }
+
