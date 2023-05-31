@@ -17,6 +17,7 @@ include '../utils/customFunction.php';
         function handleEndClass() {
             window.location.href = "http://localhost/sistem-presensi-rpl/";
         }
+        
         function display_c(){
         var refresh=1000; // Refresh rate in milli seconds
         mytime=setTimeout('display_ct()',refresh)
@@ -28,6 +29,25 @@ include '../utils/customFunction.php';
         x1 = x1 + " - " +  x.getHours( )+ ":" +  x.getMinutes() + ":" +  x.getSeconds();
         document.getElementById('ct').innerHTML = x1;
         display_c();
+        }
+
+        function myFunction() {
+            var input, filter, t, td, a, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            t = document.getElementById("table");
+            tr = t.getElementsByTagName("tr");
+            td = t.getElementsByTagName("td");
+            for (i = 0; i < td.length; i++) {
+                a = tr[i].getElementsByTagName("a")[0];
+                txtValue = a.textContent || a.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                    
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
         }
     </script>
 </head>
@@ -53,6 +73,7 @@ include '../utils/customFunction.php';
             </div>
         </head>
         <br>
+        <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name"><!--search-->
         <section class="my-shadow" style="height: 100%; overflow-y: scroll;background-color: #D6E8DB;">
             <table class="table table-striped ">
                 <thead>
@@ -63,12 +84,12 @@ include '../utils/customFunction.php';
                         <th class="col-2">Status</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id ="table">
                     <?php for ($i = 1; $i <= 20; $i++) { ?>
                         <tr>
                             <th><?= $i ?></th>
-                            <td><?= generateRandomName() ?> </td>
-                            <td><?= generateRandomNumber() ?> </td>
+                            <td><a href="#" style="all:unset;"><?= generateRandomName() ?> </a></td>
+                            <td><?= generateRandomNumber() ?></td>
                             <td>
                                 <select class="form-select form-select-sm" style="width: 200px;" aria-label="Default select example">
                                     <option selected>Open this select menu</option>
