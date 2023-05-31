@@ -18,13 +18,13 @@
   margin-bottom: 12px;
 }
 
-#myUL {
+#table {
   list-style-type: none;
   padding: 0;
   margin: 0;
 }
 
-#myUL td a {
+#table td a {
   border: 1px solid #ddd;
   margin-top: -1px; /* Prevent double borders */
   background-color: #f6f6f6;
@@ -35,7 +35,7 @@
   display: block
 }
 
-#myUL td a:hover:not(.header) {
+#table td a:hover:not(.header) {
   background-color: #eee;
 }
 </style>
@@ -46,10 +46,11 @@
 
 <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
 
-<table id="myUL">
+<table id="table">
 <tr>
+<th>test</th>
   <td id="name"><a href="#">Adele</a></td>
-  <td id="num"><a href="#">123</a></td>
+  <td id="num">123</td>
 <tr>
   <td id="name"><a href="#">Agnes</a></td>
   <td id="num"><a href="#">456</a></td>
@@ -74,19 +75,20 @@
 
 <script>
 function myFunction() {
-    var input, filter, ul, td, a, i, txtValue;
+    var input, filter, t, td, a, i, txtValue;
     input = document.getElementById("myInput");
     filter = input.value.toUpperCase();
-    ul = document.getElementById("myUL");
-    td = ul.getElementsByTagName("td");
+    t = document.getElementById("table");
+    tr = t.getElementsByTagName("tr");
+    td = t.getElementsByTagName("td");
     for (i = 0; i < td.length; i++) {
-        a = td[i].getElementsByTagName("a")[0];
+        a = tr[i].getElementsByTagName("a")[0];
         txtValue = a.textContent || a.innerText;
         if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            td[i].style.display = "";
+            tr[i].style.display = "";
             
         } else {
-            td[i].style.display = "none";
+            tr[i].style.display = "none";
         }
     }
 }
