@@ -10,9 +10,13 @@
     <link rel="stylesheet" href="css/shadow.css">
 </head>
 <script>
-    function sub() {
+    function login() {
         //var x = document.fform.inp.value;
         window.location.href = "pages/dashboard.php";
+    }
+
+    function info() {
+        window.location.href = "pages/infoPage.php"
     }
 </script>
 
@@ -22,8 +26,10 @@
             <h1 style="color: #936D49">Login</h1><br>
             <input class="login my-shadow" name="inp" type="text" placeholder="Kode Guru"><br><br>
             <input class="login my-shadow" type="password" placeholder="Password"><br><br>
-            <button class="submit my-shadow" type="button" onclick="sub()">Submit</button>
+            <button class="submit my-shadow" type="button" onclick="login()">Submit</button>
+            <button class="submit my-shadow" type="button" onclick="info()">info</button>
         </form>
     </div>
 </body>
+
 </html>

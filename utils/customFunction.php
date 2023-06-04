@@ -22,8 +22,15 @@ function generateRandomNumber()
     return $number;
 }
 
-function generateDate(){
+function generateDate()
+{
     $currentDate = date('D I F Y');
     echo $currentDate;
 }
 
+function generateRandomBoolean()
+{
+    $randomNumber = mt_rand(0, 1);
+    $randomValue = ($randomNumber === 1) ? true : false;
+    return $randomValue;
+}
