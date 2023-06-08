@@ -49,6 +49,34 @@ include '../utils/customFunction.php';
 				}
 			}
 		}
+        function sortTable(n) {
+        var table, rows, switching, i, x, y, shouldSwitch;
+        table = document.getElementById("table");
+        switching = true;
+        while (switching) {
+            switching = false;
+            rows = table.rows;
+            for (i = 0; i < (rows.length - 1); i++) {
+            shouldSwitch = false;
+            if (n == 1){
+                x = rows[i].getElementsByTagName("TD")[0];
+                y = rows[i + 1].getElementsByTagName("TD")[0];
+            }
+            else{
+                x = rows[i].getElementsByTagName("TD")[1];
+                y = rows[i + 1].getElementsByTagName("TD")[1];
+            }
+            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                shouldSwitch = true;
+                break;
+            }
+            }
+            if (shouldSwitch) {
+            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+            switching = true;
+            }
+        }
+        }
 	</script>
 </head>
 
@@ -57,7 +85,6 @@ include '../utils/customFunction.php';
             padding: 20px;
             height: 100vh;">
 	<div class="container d-flex flex-column justify-content-between">
-
 		<head style="margin-bottom: 20px;">
 			<div style="display: flex; align-items: center; justify-content: space-between;">
 				<h2 class="brownText">Selamat Datang Bapak Joko Susilo</h2>
@@ -83,8 +110,8 @@ include '../utils/customFunction.php';
 				<thead>
 					<tr>
 						<th class="col-1">#</th>
-						<th class="col-6">Nama siswa</th>
-						<th class="col-2">NIS</th>
+						<th class="col-6">Nama siswa<button  type="button" style="border:none;background:none;" onclick="sortTable(1)">˅</button></th>
+						<th class="col-2">NIS<button type="button" style="border:none;background:none;" onclick="sortTable(2)">˅</button></th>
 						<th class="col-2">Status</th>
 					</tr>
 				</thead>
