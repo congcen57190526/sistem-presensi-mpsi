@@ -15,7 +15,7 @@ include '../utils/customFunction.php';
 	<link rel="stylesheet" href="../css/customScrollbar.css">
 	<script>
 		function handleEndClass() {
-			window.location.href = "http://localhost/sistem-presensi-rpl/";
+			window.location.href = "infoPage.php"
 		}
 
 		function display_c() {

@@ -27,7 +27,7 @@
             <input class="login my-shadow" name="inp" type="text" placeholder="Kode Guru"><br><br>
             <input class="login my-shadow" type="password" placeholder="Password"><br><br>
             <button class="submit my-shadow" type="button" onclick="login()">Submit</button>
-            <button class="submit my-shadow" type="button" onclick="info()">info</button>
+            <!-- <button class="submit my-shadow" type="button" onclick="info()">info</button> -->
         </form>
     </div>
 </body>

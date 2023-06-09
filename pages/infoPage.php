@@ -14,7 +14,7 @@ include '../utils/customFunction.php';
     <link rel="stylesheet" href="../css/color.css">
     <link rel="stylesheet" href="../css/customScrollbar.css">
     <script>
-        function handleEndClass() {
+        function handleExit() {
             window.location.href = "http://localhost/sistem-presensi-rpl/";
         }
 
@@ -120,7 +120,7 @@ include '../utils/customFunction.php';
                 Apakah anda yakin ingin mengakhiri kelas?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="handleEndClass()">Akhiri</button>
+                <button type="button" class="btn btn-primary" onclick="handleExit()">Akhiri</button>
             </div>
         </div>
     </div>
