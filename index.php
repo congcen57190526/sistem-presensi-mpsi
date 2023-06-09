@@ -12,22 +12,17 @@
 <script>
     function login() {
         //var x = document.fform.inp.value;
-        window.location.href = "pages/dashboard.php";
+        // window.location.href = "pages/dashboard.php";
     }
 
-    function info() {
-        window.location.href = "pages/infoPage.php"
-    }
 </script>
 
 <body>
     <div class="bg">
-        <form align="center" class="form">
+        <form align="center" class="form" action="./utils/login.php" method="POST">
             <h1 style="color: #936D49">Login</h1><br>
-            <input class="login my-shadow" name="inp" type="text" placeholder="Kode Guru"><br><br>
-            <input class="login my-shadow" type="password" placeholder="Password"><br><br>
-            <button class="submit my-shadow" type="button" onclick="login()">Submit</button>
-            <!-- <button class="submit my-shadow" type="button" onclick="info()">info</button> -->
+            <input class="login my-shadow" name="password" id="password" type="password" placeholder="KODE" required><br><br>
+            <button class="submit my-shadow" type="submit">Submit</button>
         </form>
     </div>
 </body>

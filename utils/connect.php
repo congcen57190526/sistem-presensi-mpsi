@@ -2,10 +2,12 @@
 $host = 'localhost';
 $user = 'root';
 $password = '';
-$database = 'db_mahasiswa';
+$database = 'sistem_presensi_rpl';
 
-$conn = mysqli_connect($host, $user, $password, $database);
+$conn = new mysqli($host, $user, $password, $database);
 
 if (!$conn) {
     die('Could not connect to database: ' . mysqli_connect_error());
 }
+
+// $conn->close();

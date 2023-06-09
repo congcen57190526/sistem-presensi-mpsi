@@ -1,5 +1,11 @@
 <?php
 include '../utils/customFunction.php';
+include '../utils/connect.php';
+
+$sql = "SELECT * FROM user";
+$result = mysqli_query($conn, $sql);
+// var_dump('$result');
+// echo $result;
 ?>
 <!DOCTYPE html>
 <html lang="en">
