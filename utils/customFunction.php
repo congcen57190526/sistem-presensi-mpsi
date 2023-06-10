@@ -24,7 +24,7 @@ function generateRandomNumber()
 
 function generateDate()
 {
-    $currentDate = date('D  F Y');
+    $currentDate = date('D I F Y');
     echo $currentDate;
 }
 

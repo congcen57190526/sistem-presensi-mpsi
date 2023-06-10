@@ -2,7 +2,7 @@
 include '../utils/customFunction.php';
 include '../utils/connect.php';
 
-$sql = "SELECT * FROM user";
+$sql = "SELECT * FROM usert";
 $result = mysqli_query($conn, $sql);
 // var_dump('$result');
 // echo $result;

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 10, 2023 at 02:46 AM
+-- Generation Time: Jun 10, 2023 at 09:11 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -63,28 +63,33 @@ CREATE TABLE `mapel` (
 --
 
 INSERT INTO `mapel` (`mapel_id`, `mapel_name`, `mapel_starttime`, `mapel_endtime`, `user_id`, `mapel_day`) VALUES
-(1, 'kalkulus', '07:15:00', '07:50:00', '1', 'senin');
+(3, 'Kalkulus', '00:00:00', '00:00:00', '3', 'day'),
+(41, 'Kalkulus', '07:00:00', '17:45:00', '11', 'Saturday'),
+(42, 'Biologi', '10:00:00', '23:45:00', '12', 'Tuesday');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `user`
+-- Table structure for table `usert`
 --
 
-CREATE TABLE `user` (
+CREATE TABLE `usert` (
   `user_id` int(9) NOT NULL,
   `user_name` varchar(255) NOT NULL,
   `user_role` int(1) NOT NULL,
-  `user_code` int(11) NOT NULL
+  `user_code` int(11) NOT NULL,
+  `mapel_id` int(9) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `user`
+-- Dumping data for table `usert`
 --
 
-INSERT INTO `user` (`user_id`, `user_name`, `user_role`, `user_code`) VALUES
-(1, 'Joko', 1, 2020),
-(2, 'admin', 2, 9010);
+INSERT INTO `usert` (`user_id`, `user_name`, `user_role`, `user_code`, `mapel_id`) VALUES
+(3, 'test', 0, 1234, NULL),
+(11, 'Joko', 1, 2020, 41),
+(12, 'guru2', 1, 2021, 42),
+(21, 'admin', 2, 9010, NULL);
 
 --
 -- Indexes for dumped tables
@@ -103,9 +108,9 @@ ALTER TABLE `mapel`
   ADD PRIMARY KEY (`mapel_id`);
 
 --
--- Indexes for table `user`
+-- Indexes for table `usert`
 --
-ALTER TABLE `user`
+ALTER TABLE `usert`
   ADD PRIMARY KEY (`user_id`);
 
 --
@@ -122,13 +127,13 @@ ALTER TABLE `class`
 -- AUTO_INCREMENT for table `mapel`
 --
 ALTER TABLE `mapel`
-  MODIFY `mapel_id` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `mapel_id` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=342;
 
 --
--- AUTO_INCREMENT for table `user`
+-- AUTO_INCREMENT for table `usert`
 --
-ALTER TABLE `user`
-  MODIFY `user_id` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+ALTER TABLE `usert`
+  MODIFY `user_id` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
