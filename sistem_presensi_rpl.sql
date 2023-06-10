@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 10, 2023 at 09:11 AM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.2.0
+-- Generation Time: Jun 10, 2023 at 08:34 PM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -33,7 +33,7 @@ CREATE TABLE `class` (
   `class_code` varchar(11) NOT NULL,
   `class_siswa` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`class_siswa`)),
   `class_meet` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `class`
@@ -54,18 +54,19 @@ CREATE TABLE `mapel` (
   `mapel_name` varchar(255) NOT NULL,
   `mapel_starttime` time NOT NULL,
   `mapel_endtime` time NOT NULL,
+  `mapel_member` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`mapel_member`)),
   `user_id` varchar(25) NOT NULL,
   `mapel_day` varchar(25) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `mapel`
 --
 
-INSERT INTO `mapel` (`mapel_id`, `mapel_name`, `mapel_starttime`, `mapel_endtime`, `user_id`, `mapel_day`) VALUES
-(3, 'Kalkulus', '00:00:00', '00:00:00', '3', 'day'),
-(41, 'Kalkulus', '07:00:00', '17:45:00', '11', 'Saturday'),
-(42, 'Biologi', '10:00:00', '23:45:00', '12', 'Tuesday');
+INSERT INTO `mapel` (`mapel_id`, `mapel_name`, `mapel_starttime`, `mapel_endtime`, `mapel_member`, `user_id`, `mapel_day`) VALUES
+(3, 'Kalkulus', '00:00:00', '00:00:00', '', '3', 'day'),
+(41, 'Kalkulus', '00:00:00', '23:55:00', '[\"joko\",\"andy\",\"mike\"]', '11', 'Sunday'),
+(42, 'Biologi', '10:00:00', '23:45:00', '[\"joko\",\"andy\",\"mike\"]', '12', 'Tuesday');
 
 -- --------------------------------------------------------
 
@@ -79,7 +80,7 @@ CREATE TABLE `usert` (
   `user_role` int(1) NOT NULL,
   `user_code` int(11) NOT NULL,
   `mapel_id` int(9) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `usert`

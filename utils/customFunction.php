@@ -24,7 +24,8 @@ function generateRandomNumber()
 
 function generateDate()
 {
-    $currentDate = date('D I F Y');
+    date_default_timezone_set("Asia/Jakarta");
+    $currentDate = date("d F Y");
     echo $currentDate;
 }
 

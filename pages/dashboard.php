@@ -4,8 +4,13 @@ include '../utils/connect.php';
 
 $sql = "SELECT * FROM usert";
 $result = mysqli_query($conn, $sql);
-// var_dump('$result');
-// echo $result;
+session_start();
+
+if (!isset($_SESSION['user_code'])) {
+	echo "<script type='text/javascript'>alert('Anda harus login terlebih dahulu');
+        window.location.href='http://localhost/sistem-presensi-rpl/';
+        </script>";
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,10 +25,6 @@ $result = mysqli_query($conn, $sql);
 	<link rel="stylesheet" href="../css/color.css">
 	<link rel="stylesheet" href="../css/customScrollbar.css">
 	<script>
-		function handleEndClass() {
-			window.location.href = "infoPage.php"
-		}
-
 		function display_c() {
 			var refresh = 1000; // Refresh rate in milli seconds
 			mytime = setTimeout('display_ct()', refresh)
@@ -55,34 +56,34 @@ $result = mysqli_query($conn, $sql);
 				}
 			}
 		}
-        function sortTable(n) {
-        var table, rows, switching, i, x, y, shouldSwitch;
-        table = document.getElementById("table");
-        switching = true;
-        while (switching) {
-            switching = false;
-            rows = table.rows;
-            for (i = 0; i < (rows.length - 1); i++) {
-            shouldSwitch = false;
-            if (n == 1){
-                x = rows[i].getElementsByTagName("TD")[0];
-                y = rows[i + 1].getElementsByTagName("TD")[0];
-            }
-            else{
-                x = rows[i].getElementsByTagName("TD")[1];
-                y = rows[i + 1].getElementsByTagName("TD")[1];
-            }
-            if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-                shouldSwitch = true;
-                break;
-            }
-            }
-            if (shouldSwitch) {
-            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-            switching = true;
-            }
-        }
-        }
+
+		function sortTable(n) {
+			var table, rows, switching, i, x, y, shouldSwitch;
+			table = document.getElementById("table");
+			switching = true;
+			while (switching) {
+				switching = false;
+				rows = table.rows;
+				for (i = 0; i < (rows.length - 1); i++) {
+					shouldSwitch = false;
+					if (n == 1) {
+						x = rows[i].getElementsByTagName("TD")[0];
+						y = rows[i + 1].getElementsByTagName("TD")[0];
+					} else {
+						x = rows[i].getElementsByTagName("TD")[1];
+						y = rows[i + 1].getElementsByTagName("TD")[1];
+					}
+					if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+						shouldSwitch = true;
+						break;
+					}
+				}
+				if (shouldSwitch) {
+					rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+					switching = true;
+				}
+			}
+		}
 	</script>
 </head>
 
@@ -91,6 +92,7 @@ $result = mysqli_query($conn, $sql);
             padding: 20px;
             height: 100vh;">
 	<div class="container d-flex flex-column justify-content-between">
+
 		<head style="margin-bottom: 20px;">
 			<div style="display: flex; align-items: center; justify-content: space-between;">
 				<h2 class="brownText">Selamat Datang Bapak Joko Susilo</h2>
@@ -116,7 +118,7 @@ $result = mysqli_query($conn, $sql);
 				<thead>
 					<tr>
 						<th class="col-1">#</th>
-						<th class="col-6">Nama siswa<button  type="button" style="border:none;background:none;" onclick="sortTable(1)">˅</button></th>
+						<th class="col-6">Nama siswa<button type="button" style="border:none;background:none;" onclick="sortTable(1)">˅</button></th>
 						<th class="col-2">NIS<button type="button" style="border:none;background:none;" onclick="sortTable(2)">˅</button></th>
 						<th class="col-2">Status</th>
 					</tr>
@@ -146,8 +148,6 @@ $result = mysqli_query($conn, $sql);
 		</footer>
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-
-
 </body>
 
 </html>
@@ -164,8 +164,13 @@ $result = mysqli_query($conn, $sql);
 				Apakah anda yakin ingin mengakhiri kelas?
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-primary" onclick="handleEndClass()">Akhiri</button>
+				<form action="../utils/logout.php">
+					<button type="submit" class="btn btn-primary">Akhiri</button>
+				</form>
 			</div>
 		</div>
 	</div>
 </div>
+
+<!-- cara update data json -->
+<!-- UPDATE `mapel` SET `mapel_member` = '[\"joko\",\"andy\",\"mike\"]' WHERE `mapel`.`mapel_id` = 42; -->

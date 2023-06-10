@@ -1,5 +1,13 @@
 <?php
 include '../utils/customFunction.php';
+
+session_start();
+
+if (!isset($_SESSION['user_code'])) {
+    echo "<script type='text/javascript'>alert('Anda harus login terlebih dahulu');
+        window.location.href='http://localhost/sistem-presensi-rpl/';
+        </script>";
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -90,7 +98,12 @@ include '../utils/customFunction.php';
                                     <?php } ?>
                                 </td>
                             <?php }  ?>
-                            <td><button class="btn btn-sm btn-success">Edit</button></td>
+                            <td>
+                                <?php if (isset($_SESSION['user_code']) && $_SESSION['user_role'] == 2) { ?>
+                                    <button class="btn btn-sm btn-success">Edit</button>
+                                <?php }
+                                ?>
+                            </td>
 
                         </tr>
                     <?php } ?>
