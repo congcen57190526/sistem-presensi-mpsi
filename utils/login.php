@@ -22,8 +22,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $result2 = mysqli_query($conn, $query2);
                 $row2 = mysqli_fetch_assoc($result2);
                 $dbTime = strtotime($row2['mapel_starttime']);
-                $now = strtotime("07:00"); //waktu sementara
-                if ($dbTime > $now) {
+                $now = strtotime("07:15"); //waktu sementara
+                if ($dbTime <= $now) {
                     echo "<script type='text/javascript'>alert('no');</script>";
                 } else {
                     header("Location: http://localhost/sistem-presensi-rpl/pages/dashboard.php");
@@ -33,18 +33,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             }
         }
     }
-    // $row = mysqli_fetch_assoc($result);
-    // // $dbTime = strtotime($row['time_column']);
-    // // $now = strtotime("07:00");
-    // while($row = mysqli_fetch_assoc($result)){
-    //     echo $row["mapel_id"];
-    // }
-    // if ($dbTime > $now){
-    //     // header("Location: http://localhost/sistem-presensi-rpl/pages/infoPage.php");
-    // }
-    // else{
-    //     // echo "<script type='text/javascript'>alert('no');</script>";
-    // }
 }
 ?>
 <!-- 1. pengajar -->

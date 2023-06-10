@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 09, 2023 at 08:53 AM
+-- Generation Time: Jun 10, 2023 at 02:46 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -52,16 +52,18 @@ INSERT INTO `class` (`class_id`, `class_user`, `class_code`, `class_siswa`, `cla
 CREATE TABLE `mapel` (
   `mapel_id` int(9) NOT NULL,
   `mapel_name` varchar(255) NOT NULL,
-  `mapel_starttime` int(10) NOT NULL,
-  `mapel_endtime` int(10) NOT NULL
+  `mapel_starttime` time NOT NULL,
+  `mapel_endtime` time NOT NULL,
+  `user_id` varchar(25) NOT NULL,
+  `mapel_day` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `mapel`
 --
 
-INSERT INTO `mapel` (`mapel_id`, `mapel_name`, `mapel_starttime`, `mapel_endtime`) VALUES
-(1, 'kalkulus', 1, 1);
+INSERT INTO `mapel` (`mapel_id`, `mapel_name`, `mapel_starttime`, `mapel_endtime`, `user_id`, `mapel_day`) VALUES
+(1, 'kalkulus', '07:15:00', '07:50:00', '1', 'senin');
 
 -- --------------------------------------------------------
 
@@ -73,17 +75,16 @@ CREATE TABLE `user` (
   `user_id` int(9) NOT NULL,
   `user_name` varchar(255) NOT NULL,
   `user_role` int(1) NOT NULL,
-  `user_code` int(11) NOT NULL,
-  `user_track_record` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`user_track_record`))
+  `user_code` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`user_id`, `user_name`, `user_role`, `user_code`, `user_track_record`) VALUES
-(1, 'Joko', 1, 2020, ''),
-(2, 'admin', 2, 9010, '');
+INSERT INTO `user` (`user_id`, `user_name`, `user_role`, `user_code`) VALUES
+(1, 'Joko', 1, 2020),
+(2, 'admin', 2, 9010);
 
 --
 -- Indexes for dumped tables
