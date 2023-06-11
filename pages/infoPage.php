@@ -1,14 +1,19 @@
 <?php
+include '../utils/connect.php';
 include '../utils/customFunction.php';
 
 session_start();
+$search = $_GET['search'];
+$recordQuery = "SELECT * FROM record
+    JOIN mapel ON mapel.mapel_id = record.record_mapel_id
+    WHERE record_id = $search";
 
-if (!isset($_SESSION['user_code'])) {
-    echo "<script type='text/javascript'>alert('Anda harus login terlebih dahulu');
-        window.location.href='http://localhost/sistem-presensi-rpl/';
-        </script>";
+$recordResult = mysqli_query($conn, $recordQuery);
+while ($row = mysqli_fetch_assoc($recordResult)) {
+    $array = json_decode($row['record_attend'], true);
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -83,28 +88,25 @@ if (!isset($_SESSION['user_code'])) {
                                 <?= $x ?>
                             </td>
                         <?php }  ?>
-                        <th class="col-2">Action</th>
+                        <?php if (isset($_SESSION['user_code']) && $_SESSION['user_role'] == 2) { ?>
+                            <th class="col-2">Action</th>
+                        <?php } ?>
                     </tr>
                 </thead>
                 <tbody id="table">
-                    <?php for ($i = 1; $i <= 20; $i++) { ?>
+
+                    <?php foreach ($array as $record) { ?>
                         <tr>
-                            <th><?= $i ?></th>
-                            <td><a href="#" style="all:unset;"><?= generateRandomName() ?> </a></td>
-                            <?php for ($x = 1; $x <= 16; $x++) { ?>
-                                <td>
-                                    <?php if (generateRandomBoolean() == true) { ?>
-                                        &check;
-                                    <?php } ?>
-                                </td>
-                            <?php }  ?>
+                            <th><?= 1 ?></th>
+                            <td><?= $record['member_name'] ?></td>
+                            <td>
+                                <?= $record['member_attend_status'] ?>
+                            </td>
                             <td>
                                 <?php if (isset($_SESSION['user_code']) && $_SESSION['user_role'] == 2) { ?>
                                     <button class="btn btn-sm btn-success">Edit</button>
-                                <?php }
-                                ?>
+                                <?php } ?>
                             </td>
-
                         </tr>
                     <?php } ?>
                 </tbody>
@@ -115,8 +117,6 @@ if (!isset($_SESSION['user_code'])) {
         </footer>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-
-
 </body>
 
 </html>

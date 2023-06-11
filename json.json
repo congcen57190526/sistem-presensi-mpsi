@@ -1,17 +1,27 @@
 [
 	{
-	"day":"senin",
-	"week": "1",
-	"matkul":"matematika"
+		"member_name": "JOKO",
+		"member_attend_status": "H",
+		"week": 1
 	},
 	{
-	"day":"senin",
-	"week": "1",
-	"matkul":"bahasa"
+		"member_name": "ANDI",
+		"member_attend_status": "H",
+		"week": 1
 	},
 	{
-	"day":"senin",
-	"week": "2",
-	"matkul":"matematika"
+		"member_name": "BUZZ",
+		"member_attend_status": "A",
+		"week": 1
+	},
+	{
+		"member_name": "NARUTO",
+		"member_attend_status": "I",
+		"week": 1
+	},
+	{
+		"member_name": "SASKEH",
+		"member_attend_status": "H",
+		"week": 2
 	}
 ]

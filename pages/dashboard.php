@@ -2,9 +2,15 @@
 include '../utils/customFunction.php';
 include '../utils/connect.php';
 
-$sql = "SELECT * FROM usert";
-$result = mysqli_query($conn, $sql);
 session_start();
+$user_id = $_SESSION['user_id'];
+$mapelQuery = "SELECT * FROM mapel
+	JOIN class ON mapel.mapel_class_id = class.class_id
+	WHERE user_id=$user_id";
+$memberQuery = "SELECT * FROM member WHERE member_class_id = 1";
+
+$mapelResult = mysqli_query($conn, $mapelQuery);
+$memberResult = mysqli_query($conn, $memberQuery);
 
 if (!isset($_SESSION['user_code'])) {
 	echo "<script type='text/javascript'>alert('Anda harus login terlebih dahulu');
@@ -94,19 +100,21 @@ if (!isset($_SESSION['user_code'])) {
 	<div class="container d-flex flex-column justify-content-between">
 
 		<head style="margin-bottom: 20px;">
-			<div style="display: flex; align-items: center; justify-content: space-between;">
-				<h2 class="brownText">Selamat Datang Bapak Joko Susilo</h2>
-				<div class="my-shadow" style="background-color: white; padding: 10px; border-radius: 10px;">
-					<img style="width: 60px; height: 60px;" src="https://1.bp.blogspot.com/-KNgLt5rNEv0/YJeYxR7R7EI/AAAAAAAALOU/Msfbq_pecacbL9__h0E3IeBlHVq8fW41QCLcBGAsYHQ/s600/Institut_Bisnis_Dan_Informatika_Kwik_Kian_Gie.png" alt="logo_kkg">
+			<?php while ($row = mysqli_fetch_assoc($mapelResult)) { ?>
+				<div style="display: flex; align-items: center; justify-content: space-between;">
+					<h2 class="brownText">Selamat Datang <?= $_SESSION['user_name'] ?></h2>
+					<div class="my-shadow" style="background-color: white; padding: 10px; border-radius: 10px;">
+						<img style="width: 60px; height: 60px;" src="https://1.bp.blogspot.com/-KNgLt5rNEv0/YJeYxR7R7EI/AAAAAAAALOU/Msfbq_pecacbL9__h0E3IeBlHVq8fW41QCLcBGAsYHQ/s600/Institut_Bisnis_Dan_Informatika_Kwik_Kian_Gie.png" alt="logo_kkg">
+					</div>
 				</div>
-			</div>
-			<div style="display: flex; gap: 8px; justify-content: space-between;" class="mt-3">
-				<div>
-					<button class="btn btn-success my-shadow" style="background-color: #D6E8DB; border: none; color: black;" disabled>Kalkulus</button>
-					<button class="btn btn-success my-shadow" style="background-color: #D6E8DB; border: none; color: black;" disabled>IV - A</button>
+				<div style="display: flex; gap: 8px; justify-content: space-between;" class="mt-3">
+					<div>
+						<button class="btn btn-success my-shadow" style="background-color: #D6E8DB; border: none; color: black;" disabled><?= $row['mapel_name'] ?></button>
+						<button class="btn btn-success my-shadow" style="background-color: #D6E8DB; border: none; color: black;" disabled><?= $row['class_name'] ?></button>
+					</div>
+					<h5 class="brownText"><?= generateDate() ?></h5>
 				</div>
-				<h5 class="brownText"><?= generateDate() ?></h5>
-			</div>
+			<?php } ?>
 		</head>
 		<br>
 		<div class="input-group mb-3 my-shadow">
@@ -117,18 +125,19 @@ if (!isset($_SESSION['user_code'])) {
 			<table class="table table-striped ">
 				<thead>
 					<tr>
-						<th class="col-1">#</th>
+						<th class="col-1">No</th>
 						<th class="col-6">Nama siswa<button type="button" style="border:none;background:none;" onclick="sortTable(1)">˅</button></th>
 						<th class="col-2">NIS<button type="button" style="border:none;background:none;" onclick="sortTable(2)">˅</button></th>
 						<th class="col-2">Status</th>
 					</tr>
 				</thead>
 				<tbody id="table">
-					<?php for ($i = 1; $i <= 20; $i++) { ?>
+					<?php $i = 1; ?>
+					<?php while ($rowMember = mysqli_fetch_assoc($memberResult)) { ?>
 						<tr>
-							<th><?= $i ?></th>
-							<td><a href="#" style="all:unset;"><?= generateRandomName() ?> </a></td>
-							<td><?= generateRandomNumber() ?></td>
+							<th><?= $i; ?></th>
+							<td><?= $rowMember['member_name'] ?></td>
+							<td><?= $rowMember['member_code'] ?></td>
 							<td>
 								<select class="form-select form-select-sm" style="width: 200px;" aria-label="Default select example">
 									<option selected>Open this select menu</option>
@@ -139,6 +148,7 @@ if (!isset($_SESSION['user_code'])) {
 								</select>
 							</td>
 						</tr>
+						<?php $i++; ?>
 					<?php } ?>
 				</tbody>
 			</table>
@@ -164,13 +174,10 @@ if (!isset($_SESSION['user_code'])) {
 				Apakah anda yakin ingin mengakhiri kelas?
 			</div>
 			<div class="modal-footer">
-				<form action="../utils/logout.php">
+				<form action="../utils/endClass.php" method="POST">
 					<button type="submit" class="btn btn-primary">Akhiri</button>
 				</form>
 			</div>
 		</div>
 	</div>
 </div>
-
-<!-- cara update data json -->
-<!-- UPDATE `mapel` SET `mapel_member` = '[\"joko\",\"andy\",\"mike\"]' WHERE `mapel`.`mapel_id` = 42; -->
