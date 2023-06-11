@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 10, 2023 at 08:34 PM
+-- Generation Time: Jun 11, 2023 at 05:10 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -29,19 +29,16 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `class` (
   `class_id` int(11) NOT NULL,
-  `class_user` varchar(255) NOT NULL,
-  `class_code` varchar(11) NOT NULL,
-  `class_siswa` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`class_siswa`)),
-  `class_meet` int(10) NOT NULL
+  `class_name` varchar(25) NOT NULL,
+  `class_mapel_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `class`
 --
 
-INSERT INTO `class` (`class_id`, `class_user`, `class_code`, `class_siswa`, `class_meet`) VALUES
-(1, 'joko', '', '[\"joko\",\"andy\",\"mike\"]\n', 1),
-(2, 'joko', '', '[\"joko\",\"andy\",\"mike\"]', 2);
+INSERT INTO `class` (`class_id`, `class_name`, `class_mapel_id`) VALUES
+(1, 'IV - 2', 41);
 
 -- --------------------------------------------------------
 
@@ -54,7 +51,7 @@ CREATE TABLE `mapel` (
   `mapel_name` varchar(255) NOT NULL,
   `mapel_starttime` time NOT NULL,
   `mapel_endtime` time NOT NULL,
-  `mapel_member` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`mapel_member`)),
+  `mapel_class_id` int(11) NOT NULL,
   `user_id` varchar(25) NOT NULL,
   `mapel_day` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -63,10 +60,56 @@ CREATE TABLE `mapel` (
 -- Dumping data for table `mapel`
 --
 
-INSERT INTO `mapel` (`mapel_id`, `mapel_name`, `mapel_starttime`, `mapel_endtime`, `mapel_member`, `user_id`, `mapel_day`) VALUES
-(3, 'Kalkulus', '00:00:00', '00:00:00', '', '3', 'day'),
-(41, 'Kalkulus', '00:00:00', '23:55:00', '[\"joko\",\"andy\",\"mike\"]', '11', 'Sunday'),
-(42, 'Biologi', '10:00:00', '23:45:00', '[\"joko\",\"andy\",\"mike\"]', '12', 'Tuesday');
+INSERT INTO `mapel` (`mapel_id`, `mapel_name`, `mapel_starttime`, `mapel_endtime`, `mapel_class_id`, `user_id`, `mapel_day`) VALUES
+(3, 'Kalkulus', '00:00:00', '00:00:00', 0, '3', 'day'),
+(41, 'Kalkulus', '00:00:00', '23:55:00', 1, '11', 'Sunday'),
+(42, 'Biologi', '10:00:00', '23:45:00', 0, '12', 'Tuesday');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `member`
+--
+
+CREATE TABLE `member` (
+  `member_id` int(11) NOT NULL,
+  `member_name` varchar(25) NOT NULL,
+  `member_code` int(11) NOT NULL,
+  `member_class_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `member`
+--
+
+INSERT INTO `member` (`member_id`, `member_name`, `member_code`, `member_class_id`) VALUES
+(1, 'Cong Cen', 90909090, 1),
+(2, 'Nay', 90909091, 1),
+(3, 'Tulus', 90909092, 1),
+(4, 'Layla', 90909093, 1),
+(5, 'Sergio', 90909094, 1),
+(6, 'Magina', 90909095, 1),
+(7, 'Kael', 90909096, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `record`
+--
+
+CREATE TABLE `record` (
+  `record_id` int(11) NOT NULL,
+  `record_mapel_id` int(11) NOT NULL,
+  `record_attend` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`record_attend`))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `record`
+--
+
+INSERT INTO `record` (`record_id`, `record_mapel_id`, `record_attend`) VALUES
+(1, 41, '[\n	{\n		\"member_name\": \"JOKO\",\n		\"member_attend_status\": \"H\",\n		\"week\": 1\n	},\n	{\n		\"member_name\": \"ANDI\",\n		\"member_attend_status\": \"H\",\n		\"week\": 1\n	},\n	{\n		\"member_name\": \"BUZZ\",\n		\"member_attend_status\": \"A\",\n		\"week\": 1\n	},\n	{\n		\"member_name\": \"NARUTO\",\n		\"member_attend_status\": \"I\",\n		\"week\": 1\n	},\n	{\n		\"member_name\": \"SASKEH\",\n		\"member_attend_status\": \"H\",\n		\"week\": 2\n	}\n]'),
+(2, 0, 'null');
 
 -- --------------------------------------------------------
 
@@ -109,6 +152,18 @@ ALTER TABLE `mapel`
   ADD PRIMARY KEY (`mapel_id`);
 
 --
+-- Indexes for table `member`
+--
+ALTER TABLE `member`
+  ADD PRIMARY KEY (`member_id`);
+
+--
+-- Indexes for table `record`
+--
+ALTER TABLE `record`
+  ADD PRIMARY KEY (`record_id`);
+
+--
 -- Indexes for table `usert`
 --
 ALTER TABLE `usert`
@@ -122,13 +177,25 @@ ALTER TABLE `usert`
 -- AUTO_INCREMENT for table `class`
 --
 ALTER TABLE `class`
-  MODIFY `class_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `class_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `mapel`
 --
 ALTER TABLE `mapel`
   MODIFY `mapel_id` int(9) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=342;
+
+--
+-- AUTO_INCREMENT for table `member`
+--
+ALTER TABLE `member`
+  MODIFY `member_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `record`
+--
+ALTER TABLE `record`
+  MODIFY `record_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `usert`
