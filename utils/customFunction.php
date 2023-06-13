@@ -25,8 +25,14 @@ function generateRandomNumber()
 function generateDate()
 {
     date_default_timezone_set("Asia/Jakarta");
-    $currentDate = date("d F Y");
+    $currentDate = date("D d F Y");
     echo $currentDate;
+}
+
+function timeUp(){
+    if (date("G i") == "20:38"){
+        echo "<script type='text/javascript'>alert('Times Up');window.location.href='http://localhost/sistem-presensi-rpl/'</script>";
+    }
 }
 
 function generateRandomBoolean()
