@@ -20,6 +20,7 @@ if (!isset($_SESSION['user_code'])) {
 }
 ?>
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -33,45 +34,45 @@ if (!isset($_SESSION['user_code'])) {
 	<link rel="stylesheet" href="../css/customScrollbar.css">
 	<style>
 		.row {
-		margin-left:0px;
-		margin-right:0px;
+			margin-left: 0px;
+			margin-right: 0px;
 		}
-		
+
 		.column {
-		float: left;
-		width: 97%;
-		padding: 0px;
+			float: left;
+			width: 97%;
+			padding: 0px;
 		}
 
 		/* Clearfix (clear floats) */
 		.row::after {
-		content: "";
-		clear: both;
-		display: table;
+			content: "";
+			clear: both;
+			display: table;
 		}
 
-		table {	
-		border-collapse: collapse;
-		border-spacing: 100px;
-		width: 100%;
-		border: 1px solid #ddd;
+		table {
+			border-collapse: collapse;
+			border-spacing: 100px;
+			width: 100%;
+			border: 1px solid #ddd;
 		}
 
 
-		th, td {
-		text-align: left;
-		padding: 0px;
+		th,
+		td {
+			text-align: left;
+			padding: 0px;
 		}
 	</style>
 	<script>
-
 		// function time(){
-			// var now = new Date();
-			// var millisTill10 = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 10, 0, 0, 0) - now;
-			// if (millisTill10 < 0) {
-			// 	millisTill10 += 86400000; // it's after 10am, try 10am tomorrow.
-			// }
-			// setTimeout(function(){alert("It's 10am!")}, millisTill10);
+		// var now = new Date();
+		// var millisTill10 = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 10, 0, 0, 0) - now;
+		// if (millisTill10 < 0) {
+		// 	millisTill10 += 86400000; // it's after 10am, try 10am tomorrow.
+		// }
+		// setTimeout(function(){alert("It's 10am!")}, millisTill10);
 		// }
 		function display_c() {
 			var refresh = 1000; // Refresh rate in milli seconds
@@ -80,7 +81,7 @@ if (!isset($_SESSION['user_code'])) {
 
 		function display_ct() {
 			var x = new Date()
-			var x1 =  x.getHours() + ":" + x.getMinutes() + ":" + x.getSeconds();
+			var x1 = x.getHours() + ":" + x.getMinutes() + ":" + x.getSeconds();
 			document.getElementById('ct').innerHTML = x1;
 			display_c();
 		}
@@ -116,7 +117,7 @@ if (!isset($_SESSION['user_code'])) {
 				}
 			}
 		}
-		
+
 
 		function sortTable(n) {
 			var table, rows, switching, i, x, y, shouldSwitch;
@@ -151,9 +152,9 @@ if (!isset($_SESSION['user_code'])) {
 <body onload="display_ct()" class="creamBg" style="display: flex;
             justify-content: center;
             padding: 20px;
-            height: 100vh;"
-			onload="timeUp()">
+            height: 100vh;" onload="timeUp()">
 	<div class="container d-flex flex-column justify-content-between">
+
 		<head style="margin-bottom: 20px;">
 			<?php while ($row = mysqli_fetch_assoc($mapelResult)) { ?>
 				<div style="display: flex; align-items: center; justify-content: space-between;">
@@ -166,11 +167,14 @@ if (!isset($_SESSION['user_code'])) {
 					<div>
 						<button class="btn btn-success my-shadow" style="background-color: #D6E8DB; border: none; color: black;" disabled><?= $row['mapel_name'] ?></button>
 						<button class="btn btn-success my-shadow" style="background-color: #D6E8DB; border: none; color: black;" disabled><?= $row['class_name'] ?></button>
+						<button class="btn btn-success my-shadow" style="background-color: #D6E8DB; border: none; color: black;" disabled>Pertemuan ke-<?= $row['mapel_meet'] + 1 ?></button>
 					</div>
 					<h5 id="ct" onload="display_ct()"></h5>
 					<h5 class="brownText"><?= generateDate() ?></h5>
 				</div>
+				<?php $meet = $row['mapel_meet'] + 1 ?>
 			<?php } ?>
+
 		</head>
 		<br>
 		<div class="input-group mb-3 my-shadow">
@@ -179,52 +183,79 @@ if (!isset($_SESSION['user_code'])) {
 		</div>
 		<section class="my-shadow" style="height: 100%; overflow-y: scroll;background-color: #D6E8DB;">
 
-<div class="row">
-  <div class="column" style="width:3%;">
-		<table class="no table table-striped">
-			<tr style="height:41px">
-			<th class="col-1">No</th>
-			</tr>
-			<?php $i = 1; ?>
-			<?php while ($rowMember = mysqli_fetch_assoc($numResult)) { ?>
-			<tr style="height:47.6px">
-				<td><?= $i ?></td>
-			</tr>
-			<?php $i++; ?>
-			<?php } ?>
-		</table>
-			</div>
-			<div class="column">
-			<table class="table table-striped ">
-				<thead>
-					<tr>
-						<th class="col-6">Nama siswa<button type="button" style="border:none;background:none;" onclick="sortTable(1)">˅</button></th>
-						<th class="col-2">NIS<button type="button" style="border:none;background:none;" onclick="sortTable(2)">˅</button></th>
-						<th class="col-2">Status</th>
-					</tr>
-				</thead>
-				<tbody id="table">
-				<?php $i = 1; ?>
-					<?php while ($rowMember = mysqli_fetch_assoc($memberResult)) { ?>
-						<tr>
-							<td><?= $rowMember['member_name'] ?></td>
-							<td><?= $rowMember['member_code'] ?></td>
-							<td>
-								<select class="form-select form-select-sm" style="width: 200px;" aria-label="Default select example">
-									<option selected>Open this select menu</option>
-									<option value="1">Hadir</option>
-									<option value="2">Izin</option>
-									<option value="3">Sakit</option>
-									<option value="4">Alpha</option>
-								</select>
-							</td>
+			<div class="row">
+				<div class="column" style="width:3%;">
+					<table class="no table table-striped">
+						<tr style="height:41px">
+							<th class="col-1">No</th>
 						</tr>
-						<?php $i++; ?>
-					<?php } ?>
-				</tbody>
-			</table>
-	</div>
-</div>
+						<?php $i = 1; ?>
+						<?php while ($rowMember = mysqli_fetch_assoc($numResult)) { ?>
+							<tr style="height:47.6px">
+								<td><?= $i ?></td>
+							</tr>
+							<?php $i++; ?>
+						<?php } ?>
+					</table>
+				</div>
+				<div class="column">
+					<table class="table table-striped ">
+						<thead>
+							<tr>
+								<th class="col-6">Nama siswa<button type="button" style="border:none;background:none;" onclick="sortTable(1)">˅</button></th>
+								<th class="col-2">NIS<button type="button" style="border:none;background:none;" onclick="sortTable(2)">˅</button></th>
+								<th class="col-2">Status</th>
+							</tr>
+						</thead>
+						<form action="../utils/endClass.php" method="POST">
+							<tbody id="table">
+								<?php $i = 1; ?>
+								<?php while ($rowMember = mysqli_fetch_assoc($memberResult)) { ?>
+									<tr>
+										<td name="name" id="name"><?= $rowMember['member_name'] ?></td>
+										<td><?= $rowMember['member_code'] ?></td>
+										<td>
+											<select name="status[]" id="status" class="form-select form-select-sm" style="width: 200px;" aria-label="Default select example">
+												<!-- <option>Open this select menu</option> -->
+												<option selected value="H">Hadir</option>
+												<option value="I">Izin</option>
+												<option value="S">Sakit</option>
+												<option value="A">Alpha</option>
+											</select>
+										</td>
+									</tr>
+									<!-- MODAL -->
+									<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+										<div class="modal-dialog">
+											<div class="modal-content">
+												<div class="modal-header">
+													<h1 class="modal-title fs-5" id="exampleModalLabel">Akhiri Kelas?</h1>
+													<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+												</div>
+												<div class="modal-body">
+													Apakah anda yakin ingin mengakhiri kelas?
+												</div>
+												<div class="modal-footer">
+													<button type="submit" class="btn btn-primary">Akhiri</button>
+												</div>
+											</div>
+										</div>
+									</div>
+									<?php $data[] = array(
+										'member_name' => $rowMember['member_name'],
+										'member_code' => $rowMember['member_code'],
+										'week' => $meet,
+									);
+									$jsonData = json_encode($data);
+									?>
+									<?php $i++; ?>
+								<?php } ?>
+							</tbody>
+							<textarea type="text" id="jsonData" name="jsonData" hidden><?= $jsonData ?></textarea>
+						</form>
+					</table>
+				</div>
+			</div>
 		</section>
 		<footer class="d-flex justify-content-end py-3">
 			<button class="btn my-shadow" style="background-color: #D6E8DB;" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">End Class</button>
@@ -234,23 +265,3 @@ if (!isset($_SESSION['user_code'])) {
 </body>
 
 </html>
-
-<!-- MODAL -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h1 class="modal-title fs-5" id="exampleModalLabel">Akhiri Kelas?</h1>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body">
-				Apakah anda yakin ingin mengakhiri kelas?
-			</div>
-			<div class="modal-footer">
-				<form action="../utils/endClass.php" method="POST">
-					<button type="submit" class="btn btn-primary">Akhiri</button>
-				</form>
-			</div>
-		</div>
-	</div>
-</div>
