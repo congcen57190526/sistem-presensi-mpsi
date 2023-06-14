@@ -7,8 +7,11 @@ $user_id = $_SESSION['user_id'];
 $mapelQuery = "SELECT * FROM mapel
 	JOIN class ON mapel.mapel_class_id = class.class_id
 	WHERE user_id=$user_id";
+$mapelend = "SELECT mapel_endtime FROM mapel
+JOIN class ON mapel.mapel_class_id = class.class_id
+WHERE user_id=$user_id";
 $memberQuery = "SELECT * FROM member WHERE member_class_id = 1";
-$numQuery = "SELECT * FROM member WHERE member_class_id = 1";
+$mapelEnd = mysqli_query($conn, $mapelend);
 $mapelResult = mysqli_query($conn, $mapelQuery);
 $memberResult = mysqli_query($conn, $memberQuery);
 $numResult = mysqli_query($conn, $memberQuery);
@@ -58,11 +61,9 @@ if (!isset($_SESSION['user_code'])) {
 			border: 1px solid #ddd;
 		}
 
-
-		th,
-		td {
-			text-align: left;
-			padding: 0px;
+		th, td {
+		text-align: left;
+		padding: 0px;
 		}
 	</style>
 	<script>
@@ -81,9 +82,21 @@ if (!isset($_SESSION['user_code'])) {
 
 		function display_ct() {
 			var x = new Date()
-			var x1 = x.getHours() + ":" + x.getMinutes() + ":" + x.getSeconds();
-			document.getElementById('ct').innerHTML = x1;
+			var hours = x.getHours();
+			var minutes = x.getMinutes();
+			var seconds = x.getSeconds();
+			var current = hours + ":" + minutes + ":" + seconds;
+			document.getElementById('ct').innerHTML = current;
 			display_c();
+			
+			<?php
+			$row = mysqli_fetch_assoc($mapelEnd);
+			
+			if (strtotime(date('G:i')) > strtotime($row['mapel_endtime'])) {
+				echo "alert('times up');
+				window.location.href='http://localhost/sistem-presensi-rpl/';";
+			}
+			?>
 		}
 
 		function searchFunction() {

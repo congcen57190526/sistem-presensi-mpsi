@@ -24,6 +24,7 @@
             <input class="login my-shadow" name="password" id="password" type="password" placeholder="KODE" required><br><br>
             <button class="submit my-shadow" type="submit">Submit</button>
         </form>
+        <a href="./pages/dashboardAdmin.php">admindashboard</button>
     </div>
 </body>
 
