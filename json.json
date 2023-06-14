@@ -1,32 +1,32 @@
 [
 	{
-		"member_name": "JOKO",
-		"member_attend_status": "H",
-		"week": 1
+		"member_name": "Cong Cen",
+		"member_code": "90909090",
+		"week": 1,
+		"status": "I"
 	},
 	{
-		"member_name": "ANDI",
-		"member_attend_status": "H",
-		"week": 1
+		"member_name": "Nay",
+		"member_code": "90909091",
+		"week": 1,
+		"status": "H"
 	},
 	{
-		"member_name": "BUZZ",
-		"member_attend_status": "A",
-		"week": 1
+		"member_name": "Tulus",
+		"member_code": "90909092",
+		"week": 1,
+		"status": "H"
 	},
 	{
-		"member_name": "NARUTO",
-		"member_attend_status": "I",
-		"week": 1
+		"member_name": "Sergio",
+		"member_code": "90909094",
+		"week": 1,
+		"status": "H"
 	},
 	{
-		"member_name": "SASKEH",
-		"member_attend_status": "H",
-		"week": 2
-	},
-	{
-		"member_name": "SASKEH",
-		"member_attend_status": "H",
-		"week": 2
+		"member_name": "Kael",
+		"member_code": "90909096",
+		"week": 1,
+		"status": "H"
 	}
 ]

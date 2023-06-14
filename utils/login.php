@@ -36,6 +36,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $_SESSION['user_role'] = $row['user_role'];
                 $_SESSION['user_id'] = $row['user_id'];
                 $_SESSION['user_name'] = $row['user_name'];
+                $_SESSION['user_nip'] = $row['user_nip'];
+                $_SESSION['mapel_id'] = $row['mapel_id'];
                 $row2 = mysqli_fetch_assoc($result2);
                 $dbStart = strtotime($row2['mapel_starttime']);
                 $dbEnd = strtotime($row2['mapel_endtime']);

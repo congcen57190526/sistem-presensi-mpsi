@@ -95,7 +95,7 @@ if (!isset($_SESSION['user_code'])) {
 				}
 			}
 		}
-		
+
 
 		function sortTable(n) {
 			var table, rows, switching, i, x, y, shouldSwitch;
@@ -130,14 +130,14 @@ if (!isset($_SESSION['user_code'])) {
 <body onload="display_ct()" class="creamBg" style="display: flex;
             justify-content: center;
             padding: 20px;
-            height: 100vh;"
-			onload="timeUp()">
+            height: 100vh;" onload="timeUp()">
 	<div class="container d-flex flex-column justify-content-between">
+
 		<head style="margin-bottom: 20px;">
-		<?php $nip = mysqli_fetch_assoc($userNip)?>
+			<?php $nip = mysqli_fetch_assoc($userNip) ?>
 			<?php while ($row = mysqli_fetch_assoc($mapelResult)) { ?>
 				<div style="display: flex; align-items: center; justify-content: space-between;">
-					<h2 class="brownText"><?= $nip['nip']." - ".$_SESSION['user_name'] ?></h2>
+					<h2 class="brownText"><?= $nip['nip'] . " - " . $_SESSION['user_name'] ?></h2>
 					<div class="my-shadow" style="background-color: white; padding: 10px; border-radius: 10px;">
 						<img style="width: 60px; height: 60px;" src="https://1.bp.blogspot.com/-KNgLt5rNEv0/YJeYxR7R7EI/AAAAAAAALOU/Msfbq_pecacbL9__h0E3IeBlHVq8fW41QCLcBGAsYHQ/s600/Institut_Bisnis_Dan_Informatika_Kwik_Kian_Gie.png" alt="logo_kkg">
 					</div>
@@ -155,44 +155,44 @@ if (!isset($_SESSION['user_code'])) {
 		</div>
 		<section class="my-shadow" style="height: 100%; overflow-y: scroll;background-color: #D6E8DB;">
 
-<div class="row">
-  <div class="column" style="width:3%;">
-		</table>
+			<div class="row">
+				<div class="column" style="width:3%;">
+					</table>
+				</div>
+				<div class="column">
+					<table class="table table-striped ">
+						<thead>
+							<tr>
+								<th class="col-1">No</th>
+								<th class="col-6">Mata Pelajaran<button type="button" style="border:none;background:none;" onclick="sortTable(1)">˅</button></th>
+								<th class="col-2">Guru<button type="button" style="border:none;background:none;" onclick="sortTable(2)">˅</button></th>
+								<th class="col-2">Kelas</th>
+								<th class="col-2">Action</th>
+							</tr>
+						</thead>
+						<tbody id="table">
+							<?php $i = 1; ?>
+							<?php while ($rowMember = mysqli_fetch_assoc($memberResult)) { ?>
+								<tr>
+									<td><?= $i ?></td>
+									<td><?= $rowMember['member_name'] ?></td>
+									<td><?= $rowMember['member_code'] ?></td>
+									<td>
+										<select class="form-select form-select-sm" style="width: 200px;" aria-label="Default select example">
+											<option selected>Open this select menu</option>
+											<option value="1">Hadir</option>
+											<option value="2">Izin</option>
+											<option value="3">Sakit</option>
+											<option value="4">Alpha</option>
+										</select>
+									</td>
+								</tr>
+								<?php $i++; ?>
+							<?php } ?>
+						</tbody>
+					</table>
+				</div>
 			</div>
-			<div class="column">
-			<table class="table table-striped ">
-				<thead>
-					<tr>
-						<th class="col-1">No</th>
-						<th class="col-6">Mata Pelajaran<button type="button" style="border:none;background:none;" onclick="sortTable(1)">˅</button></th>
-						<th class="col-2">Guru<button type="button" style="border:none;background:none;" onclick="sortTable(2)">˅</button></th>
-						<th class="col-2">Kelas</th>
-						<th class="col-2">Action</th>
-					</tr>
-				</thead>
-				<tbody id="table">	
-				<?php $i = 1; ?>
-					<?php while ($rowMember = mysqli_fetch_assoc($memberResult)) { ?>
-						<tr>
-							<td><?= $i ?></td>
-							<td><?= $rowMember['member_name'] ?></td>
-							<td><?= $rowMember['member_code'] ?></td>
-							<td>
-								<select class="form-select form-select-sm" style="width: 200px;" aria-label="Default select example">
-									<option selected>Open this select menu</option>
-									<option value="1">Hadir</option>
-									<option value="2">Izin</option>
-									<option value="3">Sakit</option>
-									<option value="4">Alpha</option>
-								</select>
-							</td>
-						</tr>
-						<?php $i++; ?>
-					<?php } ?>
-				</tbody>
-			</table>
-	</div>
-</div>
 		</section>
 		<footer class="d-flex justify-content-end py-3">
 			<button class="btn my-shadow" style="background-color: #D6E8DB;" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">End Class</button>

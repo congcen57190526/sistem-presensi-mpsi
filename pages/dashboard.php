@@ -10,9 +10,18 @@ $mapelQuery = "SELECT * FROM mapel
 $mapelend = "SELECT mapel_endtime FROM mapel
 JOIN class ON mapel.mapel_class_id = class.class_id
 WHERE user_id=$user_id";
-$memberQuery = "SELECT * FROM member WHERE member_class_id = 1";
 $mapelEnd = mysqli_query($conn, $mapelend);
 $mapelResult = mysqli_query($conn, $mapelQuery);
+
+while ($row = mysqli_fetch_assoc($mapelResult)) {
+	$classId = $row['class_id'];
+	$mapelName = $row['mapel_name'];
+	$className = $row['class_name'];
+	$mapelMeet = $row['mapel_meet'] + 1;
+}
+
+$memberQuery = "SELECT * FROM member WHERE member_class_id = $classId";
+$numQuery = "SELECT * FROM member WHERE member_class_id = $classId";
 $memberResult = mysqli_query($conn, $memberQuery);
 $numResult = mysqli_query($conn, $memberQuery);
 
@@ -61,9 +70,10 @@ if (!isset($_SESSION['user_code'])) {
 			border: 1px solid #ddd;
 		}
 
-		th, td {
-		text-align: left;
-		padding: 0px;
+		th,
+		td {
+			text-align: left;
+			padding: 0px;
 		}
 	</style>
 	<script>
@@ -88,10 +98,10 @@ if (!isset($_SESSION['user_code'])) {
 			var current = hours + ":" + minutes + ":" + seconds;
 			document.getElementById('ct').innerHTML = current;
 			display_c();
-			
+
 			<?php
 			$row = mysqli_fetch_assoc($mapelEnd);
-			
+
 			if (strtotime(date('G:i')) > strtotime($row['mapel_endtime'])) {
 				echo "alert('times up');
 				window.location.href='http://localhost/sistem-presensi-rpl/';";
@@ -169,25 +179,22 @@ if (!isset($_SESSION['user_code'])) {
 	<div class="container d-flex flex-column justify-content-between">
 
 		<head style="margin-bottom: 20px;">
-			<?php while ($row = mysqli_fetch_assoc($mapelResult)) { ?>
-				<div style="display: flex; align-items: center; justify-content: space-between;">
-					<h2 class="brownText">Selamat Datang <?= $_SESSION['user_name'] ?></h2>
-					<div class="my-shadow" style="background-color: white; padding: 10px; border-radius: 10px;">
-						<img style="width: 60px; height: 60px;" src="https://1.bp.blogspot.com/-KNgLt5rNEv0/YJeYxR7R7EI/AAAAAAAALOU/Msfbq_pecacbL9__h0E3IeBlHVq8fW41QCLcBGAsYHQ/s600/Institut_Bisnis_Dan_Informatika_Kwik_Kian_Gie.png" alt="logo_kkg">
-					</div>
-				</div>
-				<div style="display: flex; gap: 8px; justify-content: space-between;" class="mt-3">
-					<div>
-						<button class="btn btn-success my-shadow" style="background-color: #D6E8DB; border: none; color: black;" disabled><?= $row['mapel_name'] ?></button>
-						<button class="btn btn-success my-shadow" style="background-color: #D6E8DB; border: none; color: black;" disabled><?= $row['class_name'] ?></button>
-						<button class="btn btn-success my-shadow" style="background-color: #D6E8DB; border: none; color: black;" disabled>Pertemuan ke-<?= $row['mapel_meet'] + 1 ?></button>
-					</div>
-					<h5 id="ct" onload="display_ct()"></h5>
-					<h5 class="brownText"><?= generateDate() ?></h5>
-				</div>
-				<?php $meet = $row['mapel_meet'] + 1 ?>
-			<?php } ?>
 
+			<div style="display: flex; align-items: center; justify-content: space-between;">
+				<h2 class="brownText"><?= $_SESSION['user_nip'] ?> - <?= $_SESSION['user_name'] ?></h2>
+				<div class="my-shadow" style="background-color: white; padding: 10px; border-radius: 10px;">
+					<img style="width: 60px; height: 60px;" src="https://1.bp.blogspot.com/-KNgLt5rNEv0/YJeYxR7R7EI/AAAAAAAALOU/Msfbq_pecacbL9__h0E3IeBlHVq8fW41QCLcBGAsYHQ/s600/Institut_Bisnis_Dan_Informatika_Kwik_Kian_Gie.png" alt="logo_kkg">
+				</div>
+			</div>
+			<div style="display: flex; gap: 8px; justify-content: space-between;" class="mt-3">
+				<div>
+					<button class="btn btn-success my-shadow" style="background-color: #D6E8DB; border: none; color: black;" disabled><?= $mapelName ?></button>
+					<button class="btn btn-success my-shadow" style="background-color: #D6E8DB; border: none; color: black;" disabled><?= $className ?></button>
+					<button class="btn btn-success my-shadow" style="background-color: #D6E8DB; border: none; color: black;" disabled>Pertemuan ke-<?= $mapelMeet ?></button>
+				</div>
+				<h5 id="ct" onload="display_ct()"></h5>
+				<h5 class="brownText"><?= generateDate() ?></h5>
+			</div>
 		</head>
 		<br>
 		<div class="input-group mb-3 my-shadow">
@@ -195,7 +202,6 @@ if (!isset($_SESSION['user_code'])) {
 			<input style="background-color: #D6E8DB; outline: none; box-shadow: none; " type="text" class="form-control" id="myInput" aria-describedby="inputGroupPrepend" placeholder="Search for names.." onkeyup="searchFunction()">
 		</div>
 		<section class="my-shadow" style="height: 100%; overflow-y: scroll;background-color: #D6E8DB;">
-
 			<div class="row">
 				<div class="column" style="width:3%;">
 					<table class="no table table-striped">
@@ -257,13 +263,16 @@ if (!isset($_SESSION['user_code'])) {
 									<?php $data[] = array(
 										'member_name' => $rowMember['member_name'],
 										'member_code' => $rowMember['member_code'],
-										'week' => $meet,
+										'week' => $mapelMeet,
 									);
 									$jsonData = json_encode($data);
+
 									?>
 									<?php $i++; ?>
 								<?php } ?>
+
 							</tbody>
+							<input type="text" name="mapelMeet" id="mapelMeet" value="<?= $mapelMeet ?>" hidden>
 							<textarea type="text" id="jsonData" name="jsonData" hidden><?= $jsonData ?></textarea>
 						</form>
 					</table>
