@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 11, 2023 at 05:10 PM
+-- Generation Time: Jun 14, 2023 at 05:59 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -38,7 +38,8 @@ CREATE TABLE `class` (
 --
 
 INSERT INTO `class` (`class_id`, `class_name`, `class_mapel_id`) VALUES
-(1, 'IV - 2', 41);
+(1, 'IV - 2', 41),
+(2, 'IV - 1', 42);
 
 -- --------------------------------------------------------
 
@@ -53,17 +54,18 @@ CREATE TABLE `mapel` (
   `mapel_endtime` time NOT NULL,
   `mapel_class_id` int(11) NOT NULL,
   `user_id` varchar(25) NOT NULL,
-  `mapel_day` varchar(25) NOT NULL
+  `mapel_day` varchar(25) NOT NULL,
+  `mapel_meet` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `mapel`
 --
 
-INSERT INTO `mapel` (`mapel_id`, `mapel_name`, `mapel_starttime`, `mapel_endtime`, `mapel_class_id`, `user_id`, `mapel_day`) VALUES
-(3, 'Kalkulus', '00:00:00', '00:00:00', 0, '3', 'day'),
-(41, 'Kalkulus', '00:00:00', '23:55:00', 1, '11', 'Sunday'),
-(42, 'Biologi', '10:00:00', '23:45:00', 0, '12', 'Tuesday');
+INSERT INTO `mapel` (`mapel_id`, `mapel_name`, `mapel_starttime`, `mapel_endtime`, `mapel_class_id`, `user_id`, `mapel_day`, `mapel_meet`) VALUES
+(3, 'Kalkulus', '00:00:00', '00:00:00', 0, '3', 'day', 0),
+(41, 'Kalkulus', '00:00:00', '23:55:00', 1, '11', 'Wednesday', 3),
+(42, 'Biologi', '10:00:00', '23:45:00', 2, '12', 'Wednesday', 1);
 
 -- --------------------------------------------------------
 
@@ -86,9 +88,9 @@ INSERT INTO `member` (`member_id`, `member_name`, `member_code`, `member_class_i
 (1, 'Cong Cen', 90909090, 1),
 (2, 'Nay', 90909091, 1),
 (3, 'Tulus', 90909092, 1),
-(4, 'Layla', 90909093, 1),
+(4, 'Layla', 90909093, 2),
 (5, 'Sergio', 90909094, 1),
-(6, 'Magina', 90909095, 1),
+(6, 'Magina', 90909095, 2),
 (7, 'Kael', 90909096, 1);
 
 -- --------------------------------------------------------
@@ -108,8 +110,8 @@ CREATE TABLE `record` (
 --
 
 INSERT INTO `record` (`record_id`, `record_mapel_id`, `record_attend`) VALUES
-(1, 41, '[\n	{\n		\"member_name\": \"JOKO\",\n		\"member_attend_status\": \"H\",\n		\"week\": 1\n	},\n	{\n		\"member_name\": \"ANDI\",\n		\"member_attend_status\": \"H\",\n		\"week\": 1\n	},\n	{\n		\"member_name\": \"BUZZ\",\n		\"member_attend_status\": \"A\",\n		\"week\": 1\n	},\n	{\n		\"member_name\": \"NARUTO\",\n		\"member_attend_status\": \"I\",\n		\"week\": 1\n	},\n	{\n		\"member_name\": \"SASKEH\",\n		\"member_attend_status\": \"H\",\n		\"week\": 2\n	}\n]'),
-(2, 0, 'null');
+(1, 41, '[{\"member_name\":\"Cong Cen\",\"member_code\":\"90909090\",\"week\":3,\"status\":\"H\"},{\"member_name\":\"Nay\",\"member_code\":\"90909091\",\"week\":3,\"status\":\"H\"},{\"member_name\":\"Tulus\",\"member_code\":\"90909092\",\"week\":3,\"status\":\"H\"},{\"member_name\":\"Sergio\",\"member_code\":\"90909094\",\"week\":3,\"status\":\"H\"},{\"member_name\":\"Kael\",\"member_code\":\"90909096\",\"week\":3,\"status\":\"H\"}]'),
+(2, 42, '[{\"member_name\":\"Layla\",\"member_code\":\"90909093\",\"week\":1,\"status\":\"H\"},{\"member_name\":\"Magina\",\"member_code\":\"90909095\",\"week\":1,\"status\":\"H\"}]');
 
 -- --------------------------------------------------------
 
@@ -119,6 +121,7 @@ INSERT INTO `record` (`record_id`, `record_mapel_id`, `record_attend`) VALUES
 
 CREATE TABLE `usert` (
   `user_id` int(9) NOT NULL,
+  `user_nip` int(11) DEFAULT NULL,
   `user_name` varchar(255) NOT NULL,
   `user_role` int(1) NOT NULL,
   `user_code` int(11) NOT NULL,
@@ -129,11 +132,11 @@ CREATE TABLE `usert` (
 -- Dumping data for table `usert`
 --
 
-INSERT INTO `usert` (`user_id`, `user_name`, `user_role`, `user_code`, `mapel_id`) VALUES
-(3, 'test', 0, 1234, NULL),
-(11, 'Joko', 1, 2020, 41),
-(12, 'guru2', 1, 2021, 42),
-(21, 'admin', 2, 9010, NULL);
+INSERT INTO `usert` (`user_id`, `user_nip`, `user_name`, `user_role`, `user_code`, `mapel_id`) VALUES
+(3, NULL, 'test', 0, 1234, NULL),
+(11, 80808080, 'Joko Susilo', 1, 2020, 41),
+(12, 80808081, 'Budi Berlinton', 1, 2021, 42),
+(21, 80808082, 'Baim Wrong', 2, 9010, NULL);
 
 --
 -- Indexes for dumped tables
@@ -167,7 +170,8 @@ ALTER TABLE `record`
 -- Indexes for table `usert`
 --
 ALTER TABLE `usert`
-  ADD PRIMARY KEY (`user_id`);
+  ADD PRIMARY KEY (`user_id`),
+  ADD UNIQUE KEY `user_nip` (`user_nip`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -177,7 +181,7 @@ ALTER TABLE `usert`
 -- AUTO_INCREMENT for table `class`
 --
 ALTER TABLE `class`
-  MODIFY `class_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `class_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `mapel`
