@@ -16,9 +16,9 @@ $mapelQuery = "SELECT * FROM record
 	JOIN mapel ON mapel.mapel_id = record.record_mapel_id 
 	JOIN usert ON mapel.user_id = usert.user_id 
 	JOIN class ON mapel.mapel_class_id = class.class_id;";
-$usernip = "SELECT nip from usert WHERE user_id = $user_id";
+$usernipQ = "SELECT * from usert WHERE user_id = $user_id";
 // $memberQuery = "SELECT * FROM member WHERE member_class_id = 1";
-$userNip = mysqli_query($conn, $usernip);
+$userNipR = mysqli_query($conn, $usernipQ);
 $mapelResult = mysqli_query($conn, $mapelQuery);
 // $memberResult = mysqli_query($conn, $memberQuery);
 // $numResult = mysqli_query($conn, $memberQuery);
@@ -68,6 +68,10 @@ $mapelResult = mysqli_query($conn, $mapelQuery);
 		}
 	</style> -->
 	<script>
+		function handleDetail(id) {
+			window.location.href = `http://localhost/sistem-presensi-rpl/pages/infoPage.php?search=${id}`;
+		}
+
 		function searchFunction() {
 			var input, filter, t, td, a, i, txtValue;
 			input = document.getElementById("myInput");
@@ -99,7 +103,7 @@ $mapelResult = mysqli_query($conn, $mapelQuery);
 				}
 			}
 		}
-		
+
 
 		function sortTable(n) {
 			var table, rows, switching, i, x, y, shouldSwitch;
@@ -134,24 +138,18 @@ $mapelResult = mysqli_query($conn, $mapelQuery);
 <body onload="display_ct()" class="creamBg" style="display: flex;
             justify-content: center;
             padding: 20px;
-            height: 100vh;"
-			onload="timeUp()">
+            height: 100vh;" onload="timeUp()">
 	<div class="container d-flex flex-column justify-content-between">
+
 		<head style="margin-bottom: 20px;">
-		<?php $nip = mysqli_fetch_assoc($userNip)?>
-			<?php while ($rowMember = mysqli_fetch_assoc($mapelResult)) { ?>
-				<div style="display: flex; align-items: center; justify-content: space-between;">
-					<h2 class="brownText"><?= $nip['nip']." - ".$_SESSION['user_name'] ?></h2>
-					<div class="my-shadow" style="background-color: white; padding: 10px; border-radius: 10px;">
-						<img style="width: 60px; height: 60px;" src="https://1.bp.blogspot.com/-KNgLt5rNEv0/YJeYxR7R7EI/AAAAAAAALOU/Msfbq_pecacbL9__h0E3IeBlHVq8fW41QCLcBGAsYHQ/s600/Institut_Bisnis_Dan_Informatika_Kwik_Kian_Gie.png" alt="logo_kkg">
-					</div>
+
+			<div style="display: flex; align-items: center; justify-content: space-between;">
+				<h2 class="brownText"><?= $_SESSION['user_nip'] ?> - <?= $_SESSION['user_name'] ?></h2>
+				<div class="my-shadow" style="background-color: white; padding: 10px; border-radius: 10px;">
+					<img style="width: 60px; height: 60px;" src="https://1.bp.blogspot.com/-KNgLt5rNEv0/YJeYxR7R7EI/AAAAAAAALOU/Msfbq_pecacbL9__h0E3IeBlHVq8fW41QCLcBGAsYHQ/s600/Institut_Bisnis_Dan_Informatika_Kwik_Kian_Gie.png" alt="logo_kkg">
 				</div>
-				<div style="display: flex; gap: 8px; justify-content: space-between;" class="mt-3">
-					<h5 id="ct" onload="display_ct()"></h5>
-					<h5 class="brownText"><?= generateDate() ?></h5>
-				</div>
-				
-			<?php  }?> 
+			</div>
+
 		</head>
 		<br>
 		<div class="input-group mb-3 my-shadow">
@@ -160,40 +158,41 @@ $mapelResult = mysqli_query($conn, $mapelQuery);
 		</div>
 		<section class="my-shadow" style="height: 100%; overflow-y: scroll;background-color: #D6E8DB;">
 
-<div class="row">
-  <div class="column" style="width:3%;">
-		</table>
+			<div class="row">
+				<div class="column" style="width:3%;">
+					</table>
+				</div>
+				<div class="column">
+					<table class="table table-striped ">
+						<thead>
+							<tr>
+								<th class="col-1">No</th>
+								<th class="col-5">Mata Pelajaran<button type="button" style="border:none;background:none;" onclick="sortTable(1)">˅</button></th>
+								<th class="col-2">Guru<button type="button" style="border:none;background:none;" onclick="sortTable(2)">˅</button></th>
+								<th class="col-2">Kelas</th>
+								<th class="col-2">Action</th>
+							</tr>
+						</thead>
+						<tbody id="table">
+							<?php $i = 1; ?>
+							<?php while ($rowMember = mysqli_fetch_assoc($mapelResult)) { ?>
+								<tr>
+									<td><?= $i ?></td>
+									<td><?= $rowMember['mapel_name'] ?></td>
+									<td><?= $rowMember['user_name'] ?></td>
+									<td><?= $rowMember['class_name'] ?></td>
+									<td><button class="btn btn-primary btn-sm" onclick="handleDetail(<?= $rowMember['record_id'] ?>)">Detail</button></td>
+									<!-- <td>"<a href='form-edit2.php?id=".$matkul['id']."'>Edit</a> | "</td> -->
+								</tr>
+								<?php $i++; ?>
+							<?php } ?>
+						</tbody>
+					</table>
+				</div>
 			</div>
-			<div class="column">
-			<table class="table table-striped ">
-				<thead>
-					<tr>
-						<th class="col-1">No</th>
-						<th class="col-6">Mata Pelajaran<button type="button" style="border:none;background:none;" onclick="sortTable(1)">˅</button></th>
-						<th class="col-2">Guru<button type="button" style="border:none;background:none;" onclick="sortTable(2)">˅</button></th>
-						<th class="col-2">Kelas</th>
-						<th class="col-2">Action</th>
-					</tr>
-				</thead>
-				<tbody id="table">	
-				<?php $i = 1; ?>
-					<?php while ($rowMember = mysqli_fetch_assoc($mapelResult)) { ?>
-						<tr>
-							<td><?= $i ?></td>
-							<td><?= $rowMember['mapel_name'] ?></td>
-							<td><?= $rowMember['user_name'] ?></td>
-							<td><?= $rowMember['class_name'] ?></td>
-							<!-- <td>"<a href='form-edit2.php?id=".$matkul['id']."'>Edit</a> | "</td> -->
-						</tr>
-						<?php $i++; ?>
-					<?php } ?>
-				</tbody>
-			</table>
-	</div>
-</div>
 		</section>
 		<footer class="d-flex justify-content-end py-3">
-			<button class="btn my-shadow" style="background-color: #D6E8DB;" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">End Class</button>
+			<button class="btn my-shadow" style="background-color: #D6E8DB;" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Log out</button>
 		</footer>
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
@@ -206,15 +205,15 @@ $mapelResult = mysqli_query($conn, $mapelQuery);
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h1 class="modal-title fs-5" id="exampleModalLabel">Akhiri Kelas?</h1>
+				<h1 class="modal-title fs-5" id="exampleModalLabel">Keluar?</h1>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-				Apakah anda yakin ingin mengakhiri kelas?
+				Apakah anda yakin ingin keluar?
 			</div>
 			<div class="modal-footer">
-				<form action="../utils/endClass.php" method="POST">
-					<button type="submit" class="btn btn-primary">Akhiri</button>
+				<form action="../utils/adminLogout.php" method="POST">
+					<button type="submit" class="btn btn-primary">Keluar</button>
 				</form>
 			</div>
 		</div>
