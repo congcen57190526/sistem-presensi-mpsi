@@ -1,8 +1,9 @@
 <?php
 include '../utils/customFunction.php';
 include '../utils/connect.php';
-date_default_timezone_set('Asia/Jakarta');
+date_default_timezone_set("Asia/Jakarta");
 session_start();
+date_default_timezone_set("Asia/Jakarta");
 $user_id = $_SESSION['user_id'];
 // $mapelQuery = "SELECT * FROM mapel
 // 	JOIN class ON mapel.mapel_class_id = class.class_id
@@ -73,36 +74,23 @@ $mapelResult = mysqli_query($conn, $mapelQuery);
 		}
 
 		function searchFunction() {
-			var input, filter, t, td, a, i, txtValue;
+			var input, filter, table, tr, td, i, txtValue;
 			input = document.getElementById("myInput");
 			filter = input.value.toUpperCase();
-			t = document.getElementById("table");
-			tr = t.getElementsByTagName("tr");
-			td = t.getElementsByTagName("td");
-			var check = !isNaN(parseFloat(filter)) && isFinite(filter);
-
-			if (!check) {
-				for (i = 0; i < td.length; i++) {
-					a = tr[i].getElementsByTagName("td")[0];
-					txtValue = a.textContent || a.innerText;
-					if (txtValue.toUpperCase().indexOf(filter) > -1) {
-						tr[i].style.display = "";
-					} else {
-						tr[i].style.display = "none";
-					}
+			table = document.getElementById("table");
+			tr = table.getElementsByTagName("tr");
+			for (i = 0; i < tr.length; i++) {
+				td = tr[i].getElementsByTagName("td")[2];
+				if (td) {
+				txtValue = td.textContent || td.innerText;
+				if (txtValue.toUpperCase().indexOf(filter) > -1) {
+					tr[i].style.display = "";
+				} else {
+					tr[i].style.display = "none";
 				}
-			} else {
-				for (i = 0; i < td.length; i++) {
-					a = tr[i].getElementsByTagName("td")[1];
-					txtValue = a.textContent || a.innerText;
-					if (txtValue.toUpperCase().indexOf(filter) > -1) {
-						tr[i].style.display = "";
-					} else {
-						tr[i].style.display = "none";
-					}
-				}
+				}       
 			}
-		}
+			}
 
 
 		function sortTable(n) {
@@ -138,7 +126,7 @@ $mapelResult = mysqli_query($conn, $mapelQuery);
 <body onload="display_ct()" class="creamBg" style="display: flex;
             justify-content: center;
             padding: 20px;
-            height: 100vh;" onload="timeUp()">
+            height: 100vh;">
 	<div class="container d-flex flex-column justify-content-between">
 
 		<head style="margin-bottom: 20px;">
