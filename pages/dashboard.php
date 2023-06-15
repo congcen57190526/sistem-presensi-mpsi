@@ -175,7 +175,7 @@ if (!isset($_SESSION['user_code'])) {
 <body onload="display_ct()" class="creamBg" style="display: flex;
             justify-content: center;
             padding: 20px;
-            height: 100vh;" onload="timeUp()">
+            height: 100vh;">
 	<div class="container d-flex flex-column justify-content-between">
 
 		<head style="margin-bottom: 20px;">
