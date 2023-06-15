@@ -7,10 +7,30 @@ $search = $_GET['search'];
 $recordQuery = "SELECT * FROM record
     JOIN mapel ON mapel.mapel_id = record.record_mapel_id
     WHERE record_id = $search";
-
 $recordResult = mysqli_query($conn, $recordQuery);
 while ($row = mysqli_fetch_assoc($recordResult)) {
-    $array = json_decode($row['record_attend'], true);
+    $decodedData = json_decode($row['record_attend'], true);
+}
+$jsonData = '[{
+    "member_name": "Cong Cen",
+    "week": 1,
+    "status": "I"
+},
+{
+    "member_name": "Nay",
+    "week": 1,
+    "status": "H"
+},
+{
+    "member_name": "Nay",
+    "week": 2,
+    "status": "I"
+}]';
+
+// $dummy = json_decode($jsonData, true);
+$groupedData = [];
+foreach ($decodedData as $data) {
+    $groupedData[$data['member_name']][$data['week']] = $data['status'];
 }
 ?>
 
@@ -59,7 +79,7 @@ while ($row = mysqli_fetch_assoc($recordResult)) {
 
         <head style="margin-bottom: 20px;">
             <div style="display: flex; align-items: center; justify-content: space-between;">
-                <h2 class="brownText">Selamat Datang Bapak Joko Susilo</h2>
+                <h2 class="brownText"><?= $_SESSION['user_nip'] ?> - <?= $_SESSION['user_name'] ?></h2>
                 <div class="my-shadow" style="background-color: white; padding: 10px; border-radius: 10px;">
                     <img style="width: 60px; height: 60px;" src="https://1.bp.blogspot.com/-KNgLt5rNEv0/YJeYxR7R7EI/AAAAAAAALOU/Msfbq_pecacbL9__h0E3IeBlHVq8fW41QCLcBGAsYHQ/s600/Institut_Bisnis_Dan_Informatika_Kwik_Kian_Gie.png" alt="logo_kkg">
                 </div>
@@ -94,21 +114,31 @@ while ($row = mysqli_fetch_assoc($recordResult)) {
                     </tr>
                 </thead>
                 <tbody id="table">
-
-                    <?php foreach ($array as $record) { ?>
+                    <?php $rowNumber = 1; ?>
+                    <?php foreach ($groupedData as $memberName => $weekData) : ?>
                         <tr>
-                            <th><?= 1 ?></th>
+                            <td><?php echo $rowNumber++; ?></td>
+                            <td><?php echo $memberName; ?></td>
+                            <?php for ($x = 1; $x <= 16; $x++) { ?>
+                                <td><?php echo $weekData[$x] ?? ''; ?></td>
+                            <?php }  ?>
+                        </tr>
+                    <?php endforeach; ?>
+                    <!-- <? //php foreach ($decodedData as $index => $record) { 
+                            ?>
+                        <tr>
+                            <th><?php echo $index + 1; ?></th>
                             <td><?= $record['member_name'] ?></td>
-                            <td>
-                                <?= $record['member_attend_status'] ?>
-                            </td>
+                            <td><?php echo ($record['week'] === 1) ? $record['status'] : ''; ?></td>
+                            <td><?php echo ($record['week'] === 2) ? $record['status'] : ''; ?></td>
                             <td>
                                 <?php if (isset($_SESSION['user_code']) && $_SESSION['user_role'] == 2) { ?>
                                     <button class="btn btn-sm btn-success">Edit</button>
                                 <?php } ?>
                             </td>
                         </tr>
-                    <?php } ?>
+                    <? //php } 
+                    ?> -->
                 </tbody>
             </table>
         </section>

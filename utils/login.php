@@ -76,6 +76,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             } else {
                 $_SESSION['user_code'] = $row['user_code'];
                 $_SESSION['user_role'] = $row['user_role'];
+                $_SESSION['user_name'] = $row['user_name'];
+                $_SESSION['user_nip'] = $row['user_nip'];
+                // header("Location: http://localhost/sistem-presensi-rpl/pages/infoPage.php?search=1");
                 header("Location: http://localhost/sistem-presensi-rpl/pages/dashboardAdmin.php");
             }
         }

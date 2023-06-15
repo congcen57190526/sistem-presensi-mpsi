@@ -262,7 +262,6 @@ if (!isset($_SESSION['user_code'])) {
 									</div>
 									<?php $data[] = array(
 										'member_name' => $rowMember['member_name'],
-										'member_code' => $rowMember['member_code'],
 										'week' => $mapelMeet,
 									);
 									$jsonData = json_encode($data);

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 14, 2023 at 05:59 PM
+-- Generation Time: Jun 15, 2023 at 04:26 PM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -64,7 +64,7 @@ CREATE TABLE `mapel` (
 
 INSERT INTO `mapel` (`mapel_id`, `mapel_name`, `mapel_starttime`, `mapel_endtime`, `mapel_class_id`, `user_id`, `mapel_day`, `mapel_meet`) VALUES
 (3, 'Kalkulus', '00:00:00', '00:00:00', 0, '3', 'day', 0),
-(41, 'Kalkulus', '00:00:00', '23:55:00', 1, '11', 'Wednesday', 3),
+(41, 'Kalkulus', '00:00:00', '23:55:00', 1, '11', 'Thursday', 2),
 (42, 'Biologi', '10:00:00', '23:45:00', 2, '12', 'Wednesday', 1);
 
 -- --------------------------------------------------------
@@ -102,7 +102,7 @@ INSERT INTO `member` (`member_id`, `member_name`, `member_code`, `member_class_i
 CREATE TABLE `record` (
   `record_id` int(11) NOT NULL,
   `record_mapel_id` int(11) NOT NULL,
-  `record_attend` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`record_attend`))
+  `record_attend` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -110,7 +110,7 @@ CREATE TABLE `record` (
 --
 
 INSERT INTO `record` (`record_id`, `record_mapel_id`, `record_attend`) VALUES
-(1, 41, '[{\"member_name\":\"Cong Cen\",\"member_code\":\"90909090\",\"week\":3,\"status\":\"H\"},{\"member_name\":\"Nay\",\"member_code\":\"90909091\",\"week\":3,\"status\":\"H\"},{\"member_name\":\"Tulus\",\"member_code\":\"90909092\",\"week\":3,\"status\":\"H\"},{\"member_name\":\"Sergio\",\"member_code\":\"90909094\",\"week\":3,\"status\":\"H\"},{\"member_name\":\"Kael\",\"member_code\":\"90909096\",\"week\":3,\"status\":\"H\"}]'),
+(1, 41, '[{\"member_name\":\"Cong Cen\",\"week\":1,\"status\":\"H\"},{\"member_name\":\"Nay\",\"week\":1,\"status\":\"H\"},{\"member_name\":\"Tulus\",\"week\":1,\"status\":\"H\"},{\"member_name\":\"Sergio\",\"week\":1,\"status\":\"H\"},{\"member_name\":\"Kael\",\"week\":1,\"status\":\"H\"},{\"member_name\":\"Cong Cen\",\"week\":2,\"status\":\"H\"},{\"member_name\":\"Nay\",\"week\":2,\"status\":\"H\"},{\"member_name\":\"Tulus\",\"week\":2,\"status\":\"H\"},{\"member_name\":\"Sergio\",\"week\":2,\"status\":\"H\"},{\"member_name\":\"Kael\",\"week\":2,\"status\":\"H\"}]'),
 (2, 42, '[{\"member_name\":\"Layla\",\"member_code\":\"90909093\",\"week\":1,\"status\":\"H\"},{\"member_name\":\"Magina\",\"member_code\":\"90909095\",\"week\":1,\"status\":\"H\"}]');
 
 -- --------------------------------------------------------

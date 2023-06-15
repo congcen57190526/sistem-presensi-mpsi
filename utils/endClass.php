@@ -19,7 +19,12 @@ while ($row = mysqli_fetch_assoc($recordResult)) {
     $recordId = $row['record_id'];
     $getOldData = $row['record_attend'];
 }
-$mergeData = array_merge(json_decode($getOldData), $existingArray);
+if ($getOldData == null) {
+    $mergeData = $existingArray;
+} else {
+    $mergeData = array_merge(json_decode($getOldData,   true), $existingArray);
+}
+
 $encodedData = json_encode($mergeData);
 
 $q = "UPDATE record SET record_attend='$encodedData' WHERE record_id=$recordId";
