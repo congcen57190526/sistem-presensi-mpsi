@@ -5,24 +5,14 @@ date_default_timezone_set("Asia/Jakarta");
 session_start();
 date_default_timezone_set("Asia/Jakarta");
 $user_id = $_SESSION['user_id'];
-// $mapelQuery = "SELECT * FROM mapel
-// 	JOIN class ON mapel.mapel_class_id = class.class_id
-// 	WHERE user_id=$user_id";
-
-// $mapelQuery = "SELECT mapel.mapel_name, usert.user_name, class.class_name FROM class 
-// JOIN mapel ON class.class_mapel_id = mapel.mapel_id
-// JOIN usert ON mapel.user_id = usert.user_id;";
 
 $mapelQuery = "SELECT * FROM record 
 	JOIN mapel ON mapel.mapel_id = record.record_mapel_id 
 	JOIN usert ON mapel.user_id = usert.user_id 
 	JOIN class ON mapel.mapel_class_id = class.class_id;";
 $usernipQ = "SELECT * from usert WHERE user_id = $user_id";
-// $memberQuery = "SELECT * FROM member WHERE member_class_id = 1";
 $userNipR = mysqli_query($conn, $usernipQ);
 $mapelResult = mysqli_query($conn, $mapelQuery);
-// $memberResult = mysqli_query($conn, $memberQuery);
-// $numResult = mysqli_query($conn, $memberQuery);
 
 ?>
 <!DOCTYPE html>
@@ -37,37 +27,7 @@ $mapelResult = mysqli_query($conn, $mapelQuery);
 	<link rel="stylesheet" href="../css/shadow.css">
 	<link rel="stylesheet" href="../css/color.css">
 	<link rel="stylesheet" href="../css/customScrollbar.css">
-	<!-- <style>
-		.row {
-		margin-left:0px;
-		margin-right:0px;
-		}
-		
-		.column {
-		float: left;
-		width: 97%;
-		padding: 0px;
-		}
 
-		/* Clearfix (clear floats) */
-		.row::after {
-		content: "";
-		clear: both;
-		display: table;
-		}
-
-		table {	
-		border-collapse: collapse;
-		border-spacing: 100px;
-		width: 100%;
-		border: 1px solid #ddd;
-		}
-
-		th, td {
-		text-align: left;
-		padding: 0px;
-		}
-	</style> -->
 	<script>
 		function handleDetail(id) {
 			window.location.href = `http://localhost/sistem-presensi-rpl/pages/infoPage.php?search=${id}`;
@@ -82,15 +42,15 @@ $mapelResult = mysqli_query($conn, $mapelQuery);
 			for (i = 0; i < tr.length; i++) {
 				td = tr[i].getElementsByTagName("td")[2];
 				if (td) {
-				txtValue = td.textContent || td.innerText;
-				if (txtValue.toUpperCase().indexOf(filter) > -1) {
-					tr[i].style.display = "";
-				} else {
-					tr[i].style.display = "none";
+					txtValue = td.textContent || td.innerText;
+					if (txtValue.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = "";
+					} else {
+						tr[i].style.display = "none";
+					}
 				}
-				}       
 			}
-			}
+		}
 
 
 		function sortTable(n) {
@@ -170,7 +130,6 @@ $mapelResult = mysqli_query($conn, $mapelQuery);
 									<td><?= $rowMember['user_name'] ?></td>
 									<td><?= $rowMember['class_name'] ?></td>
 									<td><button class="btn btn-primary btn-sm" onclick="handleDetail(<?= $rowMember['record_id'] ?>)">Detail</button></td>
-									<!-- <td>"<a href='form-edit2.php?id=".$matkul['id']."'>Edit</a> | "</td> -->
 								</tr>
 								<?php $i++; ?>
 							<?php } ?>

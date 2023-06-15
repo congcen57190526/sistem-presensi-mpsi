@@ -14,7 +14,6 @@
         //var x = document.fform.inp.value;
         // window.location.href = "pages/dashboard.php";
     }
-
 </script>
 
 <body>
@@ -24,7 +23,7 @@
             <input class="login my-shadow" name="password" id="password" type="password" placeholder="KODE" required><br><br>
             <button class="submit my-shadow" type="submit">Submit</button>
         </form>
-        <a href="./pages/time_test.php">time test</button><br>
+        <!-- <a href="./pages/time_test.php">time test</button><br> -->
         <!-- <a href="./pages/dashboardAdmin.php">admindashboard</button><br> -->
         <!-- <a href="./pages/infoPage.php">infopage</button> -->
     </div>

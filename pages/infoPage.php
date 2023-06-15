@@ -3,6 +3,7 @@ include '../utils/connect.php';
 include '../utils/customFunction.php';
 
 session_start();
+
 $search = $_GET['search'];
 $recordQuery = "SELECT * FROM record
     JOIN mapel ON mapel.mapel_id = record.record_mapel_id
@@ -11,23 +12,6 @@ $recordResult = mysqli_query($conn, $recordQuery);
 while ($row = mysqli_fetch_assoc($recordResult)) {
     $decodedData = json_decode($row['record_attend'], true);
 }
-$jsonData = '[{
-    "member_name": "Cong Cen",
-    "week": 1,
-    "status": "I"
-},
-{
-    "member_name": "Nay",
-    "week": 1,
-    "status": "H"
-},
-{
-    "member_name": "Nay",
-    "week": 2,
-    "status": "I"
-}]';
-
-// $dummy = json_decode($jsonData, true);
 $groupedData = [];
 foreach ($decodedData as $data) {
     $groupedData[$data['member_name']][$data['week']] = $data['status'];
@@ -49,6 +33,10 @@ foreach ($decodedData as $data) {
     <script>
         function handleExit() {
             window.location.href = "http://localhost/sistem-presensi-rpl/";
+        }
+
+        function goBack() {
+            history.back();
         }
 
         function searchFunction() {
@@ -109,7 +97,6 @@ foreach ($decodedData as $data) {
                             </td>
                         <?php }  ?>
                         <?php if (isset($_SESSION['user_code']) && $_SESSION['user_role'] == 2) { ?>
-                            <th class="col-2">Action</th>
                         <?php } ?>
                     </tr>
                 </thead>
@@ -124,26 +111,15 @@ foreach ($decodedData as $data) {
                             <?php }  ?>
                         </tr>
                     <?php endforeach; ?>
-                    <!-- <? //php foreach ($decodedData as $index => $record) { 
-                            ?>
-                        <tr>
-                            <th><?php echo $index + 1; ?></th>
-                            <td><?= $record['member_name'] ?></td>
-                            <td><?php echo ($record['week'] === 1) ? $record['status'] : ''; ?></td>
-                            <td><?php echo ($record['week'] === 2) ? $record['status'] : ''; ?></td>
-                            <td>
-                                <?php if (isset($_SESSION['user_code']) && $_SESSION['user_role'] == 2) { ?>
-                                    <button class="btn btn-sm btn-success">Edit</button>
-                                <?php } ?>
-                            </td>
-                        </tr>
-                    <? //php } 
-                    ?> -->
                 </tbody>
             </table>
         </section>
         <footer class="d-flex justify-content-end py-3">
-            <button class="btn my-shadow" style="background-color: #D6E8DB;" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Exit</button>
+            <?php if ($_SESSION['user_role'] == 1) { ?>
+                <button class="btn my-shadow" style="background-color: #D6E8DB;" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Exit</button>
+            <?php } else { ?>
+                <button class="btn my-shadow" style="background-color: #D6E8DB;" type="button" onclick="goBack()">Back</button>
+            <?php } ?>
         </footer>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
@@ -156,14 +132,17 @@ foreach ($decodedData as $data) {
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Akhiri Kelas?</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Logout?</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                Apakah anda yakin ingin mengakhiri kelas?
+                Apakah anda yakin ingin Logout?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="handleExit()">Akhiri</button>
+
+                <form action="../utils/adminLogout.php">
+                    <button type="submit" class="btn btn-primary">Ya</button>
+                </form>
             </div>
         </div>
     </div>

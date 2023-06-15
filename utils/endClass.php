@@ -31,6 +31,5 @@ $q = "UPDATE record SET record_attend='$encodedData' WHERE record_id=$recordId";
 $mapelQ = "UPDATE mapel SET mapel_meet='$meetke' WHERE mapel_id=$mapelId";
 mysqli_query($conn, $q);
 mysqli_query($conn, $mapelQ);
-session_destroy();
 header("Location: http://localhost/sistem-presensi-rpl/pages/infoPage.php?search=$recordId");
 exit();

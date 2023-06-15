@@ -77,7 +77,6 @@ if (!isset($_SESSION['user_code'])) {
 		}
 	</style>
 	<script>
-		date_default_timezone_set("Asia/Jakarta");
 		// function time(){
 		// var now = new Date();
 		// var millisTill10 = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 10, 0, 0, 0) - now;
@@ -92,7 +91,6 @@ if (!isset($_SESSION['user_code'])) {
 		}
 
 		function display_ct() {
-			
 			var x = new Date()
 			var hours = x.getHours();
 			var minutes = x.getMinutes();
