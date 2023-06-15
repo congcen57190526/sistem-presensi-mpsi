@@ -1,8 +1,9 @@
 <?php
 include '../utils/connect.php';
+include '../utils/customFunction.php';
 
 session_start();
-// attend data
+
 $attendList = $_POST["jsonData"];
 $meetke = $_POST["mapelMeet"];
 $existingArray = json_decode($attendList, true);
@@ -16,8 +17,12 @@ $recordQuery = "SELECT * FROM record WHERE record_mapel_id=$mapelId";
 $recordResult = mysqli_query($conn, $recordQuery);
 while ($row = mysqli_fetch_assoc($recordResult)) {
     $recordId = $row['record_id'];
+    $getOldData = $row['record_attend'];
 }
-$q = "UPDATE record SET record_attend='$modifiedJsonString' WHERE record_id=$recordId";
+$mergeData = array_merge(json_decode($getOldData), $existingArray);
+$encodedData = json_encode($mergeData);
+
+$q = "UPDATE record SET record_attend='$encodedData' WHERE record_id=$recordId";
 $mapelQ = "UPDATE mapel SET mapel_meet='$meetke' WHERE mapel_id=$mapelId";
 mysqli_query($conn, $q);
 mysqli_query($conn, $mapelQ);
