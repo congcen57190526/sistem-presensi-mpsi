@@ -16,12 +16,13 @@ while ($row = mysqli_fetch_assoc($recordResult)) {
     $className = $row['class_name'];
 }
 $groupedData = [];
-if ($decodedData != null){
+if ($decodedData != null) {
     foreach ($decodedData as $data) {
 
         $groupedData[$data['member_name']][$data['week']] = $data['status'];
     }
 }
+
 
 ?>
 
@@ -46,24 +47,24 @@ if ($decodedData != null){
             history.back();
         }
 
-		function searchFunction() {
-			var input, filter, table, tr, td, i, txtValue;
-			input = document.getElementById("myInput");
-			filter = input.value.toUpperCase();
-			table = document.getElementById("table");
-			tr = table.getElementsByTagName("tr");
-			for (i = 0; i < tr.length; i++) {
-				td = tr[i].getElementsByTagName("td")[1];
-				if (td) {
-					txtValue = td.textContent || td.innerText;
-					if (txtValue.toUpperCase().indexOf(filter) > -1) {
-						tr[i].style.display = "";
-					} else {
-						tr[i].style.display = "none";
-					}
-				}
-			}
-		}
+        function searchFunction() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("table");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[1];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
     </script>
 </head>
 
@@ -103,21 +104,67 @@ if ($decodedData != null){
                             <td>
                                 <?= $x ?>
                             </td>
+
                         <?php }  ?>
                         <?php if (isset($_SESSION['user_code']) && $_SESSION['user_role'] == 2) { ?>
+                            <td>Action</td>
                         <?php } ?>
                     </tr>
                 </thead>
                 <tbody id="table">
                     <?php $rowNumber = 1; ?>
                     <?php foreach ($groupedData as $memberName => $weekData) : ?>
+                        <?php $modalId = preg_replace('/[^a-zA-Z0-9]/', '', $memberName); ?>
                         <tr>
                             <td><?php echo $rowNumber++; ?></td>
                             <td><?php echo $memberName; ?></td>
                             <?php for ($x = 1; $x <= 16; $x++) { ?>
                                 <td><?php echo $weekData[$x] ?? ''; ?></td>
-                            <?php }  ?>
+                            <?php } ?>
+                            <?php if (isset($_SESSION['user_code']) && $_SESSION['user_role'] == 2) { ?>
+                                <td>
+                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalEdit-<?php echo $modalId; ?>">Edit</button>
+                                </td>
+                            <?php } ?>
                         </tr>
+
+                        <!-- ModalEDIT -->
+                        <div class="modal fade" id="modalEdit-<?php echo $modalId; ?>" tabindex="-1" aria-labelledby="modalEditLabel-<?php echo $modalId; ?>" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="modalEditLabel-<?php echo $modalId; ?>">Edit Data?</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <form method="post" action="../utils/editData.php">
+                                        <div class="modal-body">
+                                            <input type="hidden" name="member_name" id="member_name" value="<?= $memberName ?>">
+                                            <input type="hidden" name="record_id" id="record_id" value="<?= $search ?>">
+                                            <input type="text" value="<?= $memberName ?>" disabled class="form-control mb-4">
+                                            <textarea name="classData" id="classData" hidden><?= json_encode($decodedData) ?></textarea>
+
+                                            <select name="week" id="week" class="form-select mb-4">
+                                                <option selected value="">Pertemuan</option>
+                                                <?php for ($o = 1; $o <= 16; $o++) { ?>
+                                                    <option value="<?= $o; ?>"><?= $o; ?></option>
+                                                <?php } ?>
+                                            </select>
+                                            <select name="status" id="status" class="form-select" aria-label="Default select example">
+                                                <option selected value="H">Hadir</option>
+                                                <option value="I">Izin</option>
+                                                <option value="S">Sakit</option>
+                                                <option value="A">Alpha</option>
+                                            </select>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" value="Submit" class="btn btn-primary">Save changes</button>
+                                        </div>
+                                    </form>
+
+                                </div>
+                            </div>
+                        </div>
                     <?php endforeach; ?>
                 </tbody>
             </table>
