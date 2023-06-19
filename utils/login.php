@@ -9,10 +9,8 @@ session_start();
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $password = $_POST["password"];
     $query = "SELECT * FROM usert WHERE user_code=$password";
-    $query2 = "SELECT usert.user_id, usert.user_code, usert.mapel_id, mapel.mapel_day, mapel.mapel_starttime, mapel.mapel_endtime 
-    FROM mapel LEFT OUTER JOIN usert ON mapel.user_id = usert.user_id WHERE user_code = $password;";
-    // $query2 = "SELECT * FROM mapel WHERE";
-    // $query3 = "SELECT user_id FROM usert t1 WHERE EXISTS (SELECT user_id FROM mapel t2 WHERE t2.user_id = t1.user_id);";
+    $query2 = "SELECT * FROM mapel LEFT OUTER JOIN usert ON mapel.user_id = usert.user_id WHERE user_code = $password GROUP BY mapel_name;";
+
 
     $result = mysqli_query($conn, $query);
     $result2 = mysqli_query($conn, $query2);
@@ -32,19 +30,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         while ($row = mysqli_fetch_assoc($result)) {
             if ($row['user_role'] == 1) {
                 // session variable
-                $_SESSION['user_code'] = $row['user_code'];
-                $_SESSION['user_role'] = $row['user_role'];
-                $_SESSION['user_id'] = $row['user_id'];
-                $_SESSION['user_name'] = $row['user_name'];
-                $_SESSION['user_nip'] = $row['user_nip'];
-                $_SESSION['mapel_id'] = $row['mapel_id'];
-                $row2 = mysqli_fetch_assoc($result2);
-                $dbStart = strtotime($row2['mapel_starttime']);
-                $dbEnd = strtotime($row2['mapel_endtime']);
-                $dbDay = $row2['mapel_day'];
-                $cTime = date("H:i");
-                $cDay = date("l");
-                $now = strtotime("$cTime"); //waktu
+
+                while ($row2 = mysqli_fetch_assoc($result2)){
+                    $_SESSION['user_code'] = $row['user_code'];
+                    $_SESSION['user_role'] = $row['user_role'];
+                    $_SESSION['user_id'] = $row['user_id'];
+                    $_SESSION['user_name'] = $row['user_name'];
+                    $_SESSION['user_nip'] = $row['user_nip'];
+                    $_SESSION['mapel_id'] = $row['mapel_id'];
+                    $dbStart = strtotime($row2['mapel_starttime']);
+                    $dbEnd = strtotime($row2['mapel_endtime']);
+                    $dbDay = $row2['mapel_day'];
+                    $cTime = date("H:i");
+                    $cDay = date("l");
+                    $now = strtotime("$cTime");
+                }
+                //testing melihat jika waktu didapatkan dengan benarwaktu
                 // comment from here
                 // echo $row2['mapel_starttime']."<br>";
                 // echo $row2['mapel_endtime']."<br>";

@@ -1,15 +1,17 @@
 <?php
 include '../utils/customFunction.php';
 include '../utils/connect.php';
-
+date_default_timezone_set("Asia/Jakarta");
 session_start();
-$user_id = $_SESSION['user_id'];
+// $user_id = $_SESSION['user_id'];
+$mapel_id = $_SESSION['mapel_id'];
+// $user_nip = $_SESSION['user_nip'];
 $mapelQuery = "SELECT * FROM mapel
-	JOIN class ON mapel.mapel_class_id = class.class_id
-	WHERE user_id=$user_id";
+JOIN class ON mapel.mapel_class_id = class.class_id
+WHERE mapel_id=$mapel_id";
 $mapelend = "SELECT mapel_endtime FROM mapel
 JOIN class ON mapel.mapel_class_id = class.class_id
-WHERE user_id=$user_id";
+WHERE mapel_id=$mapel_id";
 $mapelEnd = mysqli_query($conn, $mapelend);
 $mapelResult = mysqli_query($conn, $mapelQuery);
 
@@ -76,6 +78,7 @@ if (!isset($_SESSION['user_code'])) {
 			padding: 0px;
 		}
 	</style>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
 	<script>
 		// function time(){
 		// var now = new Date();
@@ -98,15 +101,15 @@ if (!isset($_SESSION['user_code'])) {
 			var current = hours + ":" + minutes + ":" + seconds;
 			document.getElementById('ct').innerHTML = current;
 			display_c();
-
-			<?php
-			$row = mysqli_fetch_assoc($mapelEnd);
-
-			if (strtotime(date('G:i')) > strtotime($row['mapel_endtime'])) {
-				echo "alert('times up');
-				window.location.href='http://localhost/sistem-presensi-rpl/';";
-			}
-			?>
+			if (current == "7:45:00" || current == "8:30:00" || current == "9:15:00" || current == "10:30:00" || current == "11:15:00" || 
+			current == "12:00:00" || current == "13:15:00" || current == "14:15:00"){
+            // alert("times up");
+			Swal.fire({
+				title: "Kelas Sudah Berakhir",
+				confirmButtonText: "Tutup Notifikasi",
+				icon: "info"
+			});
+        }
 		}
 
 		function searchFunction() {
@@ -199,7 +202,7 @@ if (!isset($_SESSION['user_code'])) {
 		<br>
 		<div class="input-group mb-3 my-shadow">
 			<span class="input-group-text" id="inputGroupPrepend" style="background-color: #D6E8DB;">&#128269</span>
-			<input style="background-color: #D6E8DB; outline: none; box-shadow: none; " type="text" class="form-control" id="myInput" aria-describedby="inputGroupPrepend" placeholder="Search for names.." onkeyup="searchFunction()">
+			<input style="background-color: #D6E8DB; outline: none; box-shadow: none; " type="text" class="form-control" id="myInput" aria-describedby="inputGroupPrepend" placeholder="Search for Name/NIS" onkeyup="searchFunction()">
 		</div>
 		<section class="my-shadow" style="height: 100%; overflow-y: scroll;background-color: #D6E8DB;">
 			<div class="row">

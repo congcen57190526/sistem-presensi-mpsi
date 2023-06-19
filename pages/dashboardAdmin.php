@@ -6,12 +6,13 @@ session_start();
 date_default_timezone_set("Asia/Jakarta");
 $user_id = $_SESSION['user_id'];
 
-$mapelQuery = "SELECT * FROM record 
-	JOIN mapel ON mapel.mapel_id = record.record_mapel_id 
+$mapelQuery = "SELECT * FROM record JOIN mapel ON mapel.mapel_id = record.record_mapel_id 
 	JOIN usert ON mapel.user_id = usert.user_id 
-	JOIN class ON mapel.mapel_class_id = class.class_id;";
+	JOIN class ON mapel.mapel_class_id = class.class_id GROUP BY mapel_name;";
 $usernipQ = "SELECT * from usert WHERE user_id = $user_id";
-$userNipR = mysqli_query($conn, $usernipQ);
+
+$numResult = mysqli_query($conn, $mapelQuery);
+$userNip = mysqli_query($conn, $usernipQ);
 $mapelResult = mysqli_query($conn, $mapelQuery);
 
 ?>
@@ -27,7 +28,38 @@ $mapelResult = mysqli_query($conn, $mapelQuery);
 	<link rel="stylesheet" href="../css/shadow.css">
 	<link rel="stylesheet" href="../css/color.css">
 	<link rel="stylesheet" href="../css/customScrollbar.css">
+	<style>
+		.row {
+			margin-left: 0px;
+			margin-right: 0px;
+		}
 
+		.column {
+			float: left;
+			width: 97%;
+			padding: 0px;
+		}
+
+		/* Clearfix (clear floats) */
+		.row::after {
+			content: "";
+			clear: both;
+			display: table;
+		}
+
+		table {
+			border-collapse: collapse;
+			border-spacing: 100px;
+			width: 100%;
+			border: 1px solid #ddd;
+		}
+
+		th,
+		td {
+			text-align: left;
+			padding: 0px;
+		}
+	</style>
 	<script>
 		function handleDetail(id) {
 			window.location.href = `http://localhost/sistem-presensi-rpl/pages/infoPage.php?search=${id}`;
@@ -40,7 +72,7 @@ $mapelResult = mysqli_query($conn, $mapelQuery);
 			table = document.getElementById("table");
 			tr = table.getElementsByTagName("tr");
 			for (i = 0; i < tr.length; i++) {
-				td = tr[i].getElementsByTagName("td")[2];
+				td = tr[i].getElementsByTagName("td")[1];
 				if (td) {
 					txtValue = td.textContent || td.innerText;
 					if (txtValue.toUpperCase().indexOf(filter) > -1) {
@@ -63,11 +95,11 @@ $mapelResult = mysqli_query($conn, $mapelQuery);
 				for (i = 0; i < (rows.length - 1); i++) {
 					shouldSwitch = false;
 					if (n == 1) {
-						x = rows[i].getElementsByTagName("TD")[0];
-						y = rows[i + 1].getElementsByTagName("TD")[0];
-					} else {
 						x = rows[i].getElementsByTagName("TD")[1];
 						y = rows[i + 1].getElementsByTagName("TD")[1];
+					} else {
+						x = rows[i].getElementsByTagName("TD")[2];
+						y = rows[i + 1].getElementsByTagName("TD")[2];
 					}
 					if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
 						shouldSwitch = true;
@@ -102,19 +134,28 @@ $mapelResult = mysqli_query($conn, $mapelQuery);
 		<br>
 		<div class="input-group mb-3 my-shadow">
 			<span class="input-group-text" id="inputGroupPrepend" style="background-color: #D6E8DB;">&#128269</span>
-			<input style="background-color: #D6E8DB; outline: none; box-shadow: none; " type="text" class="form-control" id="myInput" aria-describedby="inputGroupPrepend" placeholder="Search for names.." onkeyup="searchFunction()">
+			<input style="background-color: #D6E8DB; outline: none; box-shadow: none; " type="text" class="form-control" id="myInput" aria-describedby="inputGroupPrepend" placeholder="Search for Names.." onkeyup="searchFunction()">
 		</div>
 		<section class="my-shadow" style="height: 100%; overflow-y: scroll;background-color: #D6E8DB;">
-
 			<div class="row">
 				<div class="column" style="width:3%;">
-					</table>
+				<table class="no table table-striped">
+						<tr style="height:41px">
+							<th class="col-1">No</th>
+						</tr>
+						<?php $i = 1; ?>
+						<?php while ($rowMember = mysqli_fetch_assoc($mapelResult)) { ?>
+						<tr style="height:47.6px">
+							<td><?= $i ?></td>
+						</tr>
+							<?php $i++; ?>
+						<?php } ?>
+				</table>
 				</div>
 				<div class="column">
 					<table class="table table-striped ">
 						<thead>
 							<tr>
-								<th class="col-1">No</th>
 								<th class="col-5">Mata Pelajaran<button type="button" style="border:none;background:none;" onclick="sortTable(1)">˅</button></th>
 								<th class="col-2">Guru<button type="button" style="border:none;background:none;" onclick="sortTable(2)">˅</button></th>
 								<th class="col-2">Kelas</th>
@@ -123,15 +164,13 @@ $mapelResult = mysqli_query($conn, $mapelQuery);
 						</thead>
 						<tbody id="table">
 							<?php $i = 1; ?>
-							<?php while ($rowMember = mysqli_fetch_assoc($mapelResult)) { ?>
+							<?php while ($rowMember = mysqli_fetch_assoc($numResult)) { ?>
 								<tr>
-									<td><?= $i ?></td>
 									<td><?= $rowMember['mapel_name'] ?></td>
 									<td><?= $rowMember['user_name'] ?></td>
 									<td><?= $rowMember['class_name'] ?></td>
 									<td><button class="btn btn-primary btn-sm" onclick="handleDetail(<?= $rowMember['record_id'] ?>)">Detail</button></td>
 								</tr>
-								<?php $i++; ?>
 							<?php } ?>
 						</tbody>
 					</table>

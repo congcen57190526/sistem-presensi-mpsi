@@ -5,17 +5,24 @@ include '../utils/customFunction.php';
 session_start();
 
 $search = $_GET['search'];
-$recordQuery = "SELECT * FROM record
-    JOIN mapel ON mapel.mapel_id = record.record_mapel_id
-    WHERE record_id = $search";
+$recordQuery = "SELECT * FROM record 
+JOIN mapel ON mapel.mapel_id = record.record_mapel_id 
+JOIN class ON mapel.mapel_class_id = class.class_id WHERE record_id = $search";
 $recordResult = mysqli_query($conn, $recordQuery);
+
 while ($row = mysqli_fetch_assoc($recordResult)) {
     $decodedData = json_decode($row['record_attend'], true);
+    $mapelName = $row['mapel_name'];
+    $className = $row['class_name'];
 }
 $groupedData = [];
-foreach ($decodedData as $data) {
-    $groupedData[$data['member_name']][$data['week']] = $data['status'];
+if ($decodedData != null){
+    foreach ($decodedData as $data) {
+
+        $groupedData[$data['member_name']][$data['week']] = $data['status'];
+    }
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -39,23 +46,24 @@ foreach ($decodedData as $data) {
             history.back();
         }
 
-        function searchFunction() {
-            var input, filter, t, td, a, i, txtValue;
-            input = document.getElementById("myInput");
-            filter = input.value.toUpperCase();
-            t = document.getElementById("table");
-            tr = t.getElementsByTagName("tr");
-            td = t.getElementsByTagName("td");
-            for (i = 0; i < td.length; i++) {
-                a = tr[i].getElementsByTagName("a")[0];
-                txtValue = a.textContent || a.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    tr[i].style.display = "";
-                } else {
-                    tr[i].style.display = "none";
-                }
-            }
-        }
+		function searchFunction() {
+			var input, filter, table, tr, td, i, txtValue;
+			input = document.getElementById("myInput");
+			filter = input.value.toUpperCase();
+			table = document.getElementById("table");
+			tr = table.getElementsByTagName("tr");
+			for (i = 0; i < tr.length; i++) {
+				td = tr[i].getElementsByTagName("td")[1];
+				if (td) {
+					txtValue = td.textContent || td.innerText;
+					if (txtValue.toUpperCase().indexOf(filter) > -1) {
+						tr[i].style.display = "";
+					} else {
+						tr[i].style.display = "none";
+					}
+				}
+			}
+		}
     </script>
 </head>
 
@@ -74,8 +82,8 @@ foreach ($decodedData as $data) {
             </div>
             <div style="display: flex; gap: 8px; justify-content: space-between;" class="mt-3">
                 <div>
-                    <button class="btn btn-success my-shadow" style="background-color: #D6E8DB; border: none; color: black;" disabled>Kalkulus</button>
-                    <button class="btn btn-success my-shadow" style="background-color: #D6E8DB; border: none; color: black;" disabled>IV - A</button>
+                    <button class="btn btn-success my-shadow" style="background-color: #D6E8DB; border: none; color: black;" disabled><?= $mapelName ?></button>
+                    <button class="btn btn-success my-shadow" style="background-color: #D6E8DB; border: none; color: black;" disabled><?= $className ?></button>
                 </div>
                 <h5 class="brownText"><?= generateDate() ?></h5>
             </div>
