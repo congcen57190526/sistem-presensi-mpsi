@@ -116,24 +116,43 @@ if ($decodedData != null) {
                     <?php foreach ($groupedData as $memberName => $weekData) : ?>
                         <?php $modalId = preg_replace('/[^a-zA-Z0-9]/', '', $memberName); ?>
                         <tr>
-                            <td><?php echo $rowNumber++; ?></td>
-                            <td><?php echo $memberName; ?></td>
+                            <td><?= $rowNumber++; ?></td>
+                            <td><?= $memberName; ?></td>
                             <?php for ($x = 1; $x <= 16; $x++) { ?>
-                                <td><?php echo $weekData[$x] ?? ''; ?></td>
+                                <td>
+                                    <p style="font-weight: bold;" class="<?php switch ($weekData[$x]) {
+                                                                                case 'H':
+                                                                                    echo 'text-primary';
+                                                                                    break;
+                                                                                case 'I':
+                                                                                    echo 'text-secondary';
+                                                                                    break;
+                                                                                case 'S':
+                                                                                    echo 'text-warning';
+                                                                                    break;
+                                                                                case 'A':
+                                                                                    echo 'text-danger';
+                                                                                    break;
+
+                                                                                default:
+                                                                                    # code...
+                                                                                    break;
+                                                                            } ?>"><?= $weekData[$x] ?? ''; ?></p>
+                                </td>
                             <?php } ?>
                             <?php if (isset($_SESSION['user_code']) && $_SESSION['user_role'] == 2) { ?>
                                 <td>
-                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalEdit-<?php echo $modalId; ?>">Edit</button>
+                                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modalEdit-<?= $modalId; ?>">Edit</button>
                                 </td>
                             <?php } ?>
                         </tr>
 
                         <!-- ModalEDIT -->
-                        <div class="modal fade" id="modalEdit-<?php echo $modalId; ?>" tabindex="-1" aria-labelledby="modalEditLabel-<?php echo $modalId; ?>" aria-hidden="true">
+                        <div class="modal fade" id="modalEdit-<?= $modalId; ?>" tabindex="-1" aria-labelledby="modalEditLabel-<?= $modalId; ?>" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="modalEditLabel-<?php echo $modalId; ?>">Edit Data?</h5>
+                                        <h5 class="modal-title" id="modalEditLabel-<?= $modalId; ?>">Edit Data?</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <form method="post" action="../utils/editData.php">

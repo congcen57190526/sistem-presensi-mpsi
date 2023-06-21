@@ -3,9 +3,7 @@ include '../utils/customFunction.php';
 include '../utils/connect.php';
 date_default_timezone_set("Asia/Jakarta");
 session_start();
-// $user_id = $_SESSION['user_id'];
 $mapel_id = $_SESSION['mapel_id'];
-// $user_nip = $_SESSION['user_nip'];
 $mapelQuery = "SELECT * FROM mapel
 JOIN class ON mapel.mapel_class_id = class.class_id
 WHERE mapel_id=$mapel_id";
@@ -58,7 +56,6 @@ if (!isset($_SESSION['user_code'])) {
 			padding: 0px;
 		}
 
-		/* Clearfix (clear floats) */
 		.row::after {
 			content: "";
 			clear: both;
@@ -80,16 +77,8 @@ if (!isset($_SESSION['user_code'])) {
 	</style>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
 	<script>
-		// function time(){
-		// var now = new Date();
-		// var millisTill10 = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 10, 0, 0, 0) - now;
-		// if (millisTill10 < 0) {
-		// 	millisTill10 += 86400000; // it's after 10am, try 10am tomorrow.
-		// }
-		// setTimeout(function(){alert("It's 10am!")}, millisTill10);
-		// }
 		function display_c() {
-			var refresh = 1000; // Refresh rate in milli seconds
+			var refresh = 1000;
 			mytime = setTimeout('display_ct()', refresh)
 		}
 
@@ -101,15 +90,14 @@ if (!isset($_SESSION['user_code'])) {
 			var current = hours + ":" + minutes + ":" + seconds;
 			document.getElementById('ct').innerHTML = current;
 			display_c();
-			if (current == "7:45:00" || current == "8:30:00" || current == "9:15:00" || current == "10:30:00" || current == "11:15:00" || 
-			current == "12:00:00" || current == "13:15:00" || current == "14:15:00"){
-            // alert("times up");
-			Swal.fire({
-				title: "Kelas Sudah Berakhir",
-				confirmButtonText: "Tutup Notifikasi",
-				icon: "info"
-			});
-        }
+			if (current == "7:45:00" || current == "8:30:00" || current == "9:15:00" || current == "10:30:00" || current == "11:15:00" ||
+				current == "12:00:00" || current == "13:15:00" || current == "14:15:00") {
+				Swal.fire({
+					title: "Kelas Sudah Berakhir",
+					confirmButtonText: "Tutup Notifikasi",
+					icon: "info"
+				});
+			}
 		}
 
 		function searchFunction() {
@@ -238,7 +226,6 @@ if (!isset($_SESSION['user_code'])) {
 										<td><?= $rowMember['member_code'] ?></td>
 										<td>
 											<select name="status[]" id="status" class="form-select form-select-sm" style="width: 200px;" aria-label="Default select example">
-												<!-- <option>Open this select menu</option> -->
 												<option selected value="H">Hadir</option>
 												<option value="I">Izin</option>
 												<option value="S">Sakit</option>

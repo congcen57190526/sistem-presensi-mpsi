@@ -40,7 +40,6 @@ $mapelResult = mysqli_query($conn, $mapelQuery);
 			padding: 0px;
 		}
 
-		/* Clearfix (clear floats) */
 		.row::after {
 			content: "";
 			clear: both;
@@ -105,24 +104,23 @@ $mapelResult = mysqli_query($conn, $mapelQuery);
 		<br>
 		<div class="input-group mb-3 my-shadow">
 			<span class="input-group-text" id="inputGroupPrepend" style="background-color: #D6E8DB;">&#128269</span>
-			<input style="background-color: #D6E8DB; outline: none; box-shadow: none; " type="text" 
-			class="form-control" id="myInput" aria-describedby="inputGroupPrepend" placeholder="Search for Names.." onkeyup="searchFunction()">
+			<input style="background-color: #D6E8DB; outline: none; box-shadow: none; " type="text" class="form-control" id="myInput" aria-describedby="inputGroupPrepend" placeholder="Search for Names.." onkeyup="searchFunction()">
 		</div>
 		<section class="my-shadow" style="height: 100%; overflow-y: scroll;background-color: #D6E8DB;">
 			<div class="row">
 				<div class="column" style="width:3%;">
-				<table class="no table table-striped">
+					<table class="no table table-striped">
 						<tr style="height:41px">
 							<th class="col-1">No</th>
 						</tr>
 						<?php $i = 1; ?>
 						<?php while ($rowMember = mysqli_fetch_assoc($mapelResult)) { ?>
-						<tr style="height:47.6px">
-							<td><?= $i ?></td>
-						</tr>
+							<tr style="height:47.6px">
+								<td><?= $i ?></td>
+							</tr>
 							<?php $i++; ?>
 						<?php } ?>
-				</table>
+					</table>
 				</div>
 				<div class="column">
 					<table class="table table-striped ">
