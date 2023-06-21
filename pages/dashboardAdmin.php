@@ -83,35 +83,6 @@ $mapelResult = mysqli_query($conn, $mapelQuery);
 				}
 			}
 		}
-
-
-		function sortTable(n) {
-			var table, rows, switching, i, x, y, shouldSwitch;
-			table = document.getElementById("table");
-			switching = true;
-			while (switching) {
-				switching = false;
-				rows = table.rows;
-				for (i = 0; i < (rows.length - 1); i++) {
-					shouldSwitch = false;
-					if (n == 1) {
-						x = rows[i].getElementsByTagName("TD")[1];
-						y = rows[i + 1].getElementsByTagName("TD")[1];
-					} else {
-						x = rows[i].getElementsByTagName("TD")[2];
-						y = rows[i + 1].getElementsByTagName("TD")[2];
-					}
-					if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
-						shouldSwitch = true;
-						break;
-					}
-				}
-				if (shouldSwitch) {
-					rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-					switching = true;
-				}
-			}
-		}
 	</script>
 </head>
 
@@ -134,7 +105,8 @@ $mapelResult = mysqli_query($conn, $mapelQuery);
 		<br>
 		<div class="input-group mb-3 my-shadow">
 			<span class="input-group-text" id="inputGroupPrepend" style="background-color: #D6E8DB;">&#128269</span>
-			<input style="background-color: #D6E8DB; outline: none; box-shadow: none; " type="text" class="form-control" id="myInput" aria-describedby="inputGroupPrepend" placeholder="Search for Names.." onkeyup="searchFunction()">
+			<input style="background-color: #D6E8DB; outline: none; box-shadow: none; " type="text" 
+			class="form-control" id="myInput" aria-describedby="inputGroupPrepend" placeholder="Search for Names.." onkeyup="searchFunction()">
 		</div>
 		<section class="my-shadow" style="height: 100%; overflow-y: scroll;background-color: #D6E8DB;">
 			<div class="row">
@@ -156,8 +128,8 @@ $mapelResult = mysqli_query($conn, $mapelQuery);
 					<table class="table table-striped ">
 						<thead>
 							<tr>
-								<th class="col-5">Mata Pelajaran<button type="button" style="border:none;background:none;" onclick="sortTable(1)">˅</button></th>
-								<th class="col-2">Guru<button type="button" style="border:none;background:none;" onclick="sortTable(2)">˅</button></th>
+								<th class="col-5">Mata Pelajaran</th>
+								<th class="col-2">Guru</th>
 								<th class="col-2">Kelas</th>
 								<th class="col-2">Action</th>
 							</tr>
