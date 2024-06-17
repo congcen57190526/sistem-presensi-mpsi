@@ -27,7 +27,7 @@ $numResult = mysqli_query($conn, $memberQuery);
 
 if (!isset($_SESSION['user_code'])) {
 	echo "<script type='text/javascript'>alert('Anda harus login terlebih dahulu');
-        window.location.href='http://localhost/sistem-presensi-mspi/';
+        window.location.href='http://localhost/sistem-presensi-mpsi/';
         </script>";
 }
 ?>

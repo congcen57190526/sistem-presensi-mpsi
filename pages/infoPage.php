@@ -40,7 +40,7 @@ if ($decodedData != null) {
     <link rel="stylesheet" href="../css/customScrollbar.css">
     <script>
         function handleExit() {
-            window.location.href = "http://localhost/sistem-presensi-mspi/";
+            window.location.href = "http://localhost/sistem-presensi-mpsi/";
         }
 
         function goBack() {
