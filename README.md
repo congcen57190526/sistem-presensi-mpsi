@@ -1,4 +1,4 @@
-# sistem-presensi-rpl
+# sistem-presensi-mspi
  
 -clone this proj to ur htdocs folders
 -import the db

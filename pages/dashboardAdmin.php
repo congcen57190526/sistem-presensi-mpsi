@@ -61,7 +61,7 @@ $mapelResult = mysqli_query($conn, $mapelQuery);
 	</style>
 	<script>
 		function handleDetail(id) {
-			window.location.href = `http://localhost/sistem-presensi-rpl/pages/infoPage.php?search=${id}`;
+			window.location.href = `http://localhost/sistem-presensi-mspi/pages/infoPage.php?search=${id}`;
 		}
 
 		function searchFunction() {
